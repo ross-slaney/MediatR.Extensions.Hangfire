@@ -1,4 +1,5 @@
 using MediatR;
+using System.ComponentModel;
 
 namespace MediatR.Hangfire.Extensions.Bridge;
 
@@ -15,6 +16,7 @@ public interface IMediatorJobBridge
     /// <param name="jobName">The display name for the job in Hangfire dashboard</param>
     /// <param name="request">The MediatR request to execute</param>
     /// <returns>A task representing the asynchronous operation</returns>
+    [DisplayName("{0}")]
     Task Send(string jobName, IRequest request);
 
     /// <summary>
@@ -24,6 +26,7 @@ public interface IMediatorJobBridge
     /// <param name="jobName">The display name for the job in Hangfire dashboard</param>
     /// <param name="request">The MediatR request to execute</param>
     /// <returns>A task representing the asynchronous operation</returns>
+    [DisplayName("{0}")]
     Task Send<TResponse>(string jobName, IRequest<TResponse> request);
 
     /// <summary>
@@ -36,6 +39,7 @@ public interface IMediatorJobBridge
     /// <param name="taskId">Unique identifier for coordinating the async response</param>
     /// <param name="retryAttempts">Number of retry attempts on failure</param>
     /// <returns>A task representing the asynchronous operation</returns>
+    [DisplayName("{0}")]
     Task SendAsync<TResponse>(string jobName, IRequest<TResponse> request, string taskId, int retryAttempts);
 
     /// <summary>
@@ -45,5 +49,6 @@ public interface IMediatorJobBridge
     /// <param name="jobName">The display name for the job in Hangfire dashboard</param>
     /// <param name="notification">The MediatR notification to publish</param>
     /// <returns>A task representing the asynchronous operation</returns>
+    [DisplayName("{0}")]
     Task SendNotification(string jobName, INotification notification);
 }
