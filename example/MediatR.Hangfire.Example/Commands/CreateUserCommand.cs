@@ -1,6 +1,7 @@
 using MediatR;
 using MediatR.Hangfire.Example.Models;
 using MediatR.Hangfire.Example.Services;
+using MediatR.Hangfire.Extensions.Logging;
 
 namespace MediatR.Hangfire.Example.Commands;
 
@@ -29,7 +30,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Opera
     {
         _userService = userService;
         _emailService = emailService;
-        _logger = logger;
+        _logger = logger.WithHangfireConsole();
     }
 
     public async Task<OperationResult<User>> Handle(CreateUserCommand request, CancellationToken cancellationToken)

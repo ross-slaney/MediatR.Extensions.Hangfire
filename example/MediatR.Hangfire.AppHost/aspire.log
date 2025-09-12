@@ -1,0 +1,88 @@
+Using launch settings from /Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.AppHost/Properties/launchSettings.json...
+Building...
+info: Aspire.Hosting.DistributedApplication[0]
+      Aspire version: 9.4.1+7adcde9f8158018f984894bd38695edc229eeac9
+info: Aspire.Hosting.DistributedApplication[0]
+      Distributed application starting.
+info: Aspire.Hosting.DistributedApplication[0]
+      Application host directory is: /Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.AppHost
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[62]
+      User profile is available. Using '/Users/employment/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+info: Aspire.Hosting.Dcp.DcpHost[0]
+      Starting DCP with arguments: start-apiserver --monitor 25765 --detach --kubeconfig "/var/folders/xg/0vc0sczn47g684mws2g5lfvr0000gr/T/aspire.2ZprBj/kubeconfig"
+info: Aspire.Hosting.Dcp.dcp.start-apiserver.api-server[0]
+      Starting API server...
+info: Aspire.Hosting.Dcp.dcp.start-apiserver.api-server[0]
+      API server started	{"Address": "::1", "Port": 51868}
+info: Aspire.Hosting.Dcp.dcp.start-apiserver.dcp-host[0]
+      Starting DCP controller host
+info: Aspire.Hosting.Dcp.dcp.start-apiserver.dcp-host[0]
+      Started all services	{"count": 1}
+info: Aspire.Hosting.Dcp.dcpctrl.IdeExecutableRunner[0]
+      Executables cannot be started via IDE: missing required environment variable 'DEBUG_SESSION_PORT'
+info: Aspire.Hosting.Dcp.dcpctrl[0]
+      starting controller manager
+info: Aspire.Hosting.Dcp.dcpctrl.ExecutableReconciler[0]
+      Starting process...	{"Executable": "/aspire-dashboard-vcdfbhdc", "Reconciliation": 2, "Executable": "/usr/local/share/dotnet/dotnet", "Args": ["/Users/employment/.nuget/packages/aspire.dashboard.sdk.osx-arm64/9.4.1/tools/Aspire.Dashboard.dll"]}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service aspire-dashboard-https is now in state Ready	{"Service": "/aspire-dashboard-https", "Reconciliation": 31}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service aspire-dashboard-http is now in state Ready	{"Service": "/aspire-dashboard-http", "Reconciliation": 32}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service aspire-dashboard-otlp-grpc is now in state Ready	{"Service": "/aspire-dashboard-otlp-grpc", "Reconciliation": 33}
+info: Aspire.Hosting.DistributedApplication[0]
+      Now listening on: https://localhost:15001
+info: Aspire.Hosting.DistributedApplication[0]
+      Login to the dashboard at https://localhost:15001/login?t=30c76be9abe75a333e7f69b6ee3c441d
+info: Aspire.Hosting.Dcp.dcpctrl.NetworkReconciler[0]
+      network created	{"Network": "/aspire-network", "Reconciliation": 2, "NetworkName": "aspire-session-network-yttghszt-MediatR.Hangfire"}
+info: Aspire.Hosting.Dcp.dcpctrl.ContainerReconciler[0]
+      Added new ContainerNetworkConnection	{"Container": "/sql-xxvqrxkj", "Reconciliation": 9, "ContainerName": "sql-xxvqrxkj", "Network": "/aspire-network"}
+info: Aspire.Hosting.Dcp.dcpctrl.ContainerReconciler[0]
+      Added new ContainerNetworkConnection	{"Container": "/redis-ydmfszhc", "Reconciliation": 10, "ContainerName": "redis-ydmfszhc", "Network": "/aspire-network"}
+info: Aspire.Hosting.Dcp.dcpctrl.NetworkReconciler[0]
+      all expected containers are connected to the network	{"Network": "/aspire-network", "Reconciliation": 5, "NetworkName": "aspire-session-network-yttghszt-MediatR.Hangfire", "NetworkID": "86b32a242c6d", "Expected": 2, "Found": 2}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service sql is now in state Ready	{"Service": "/sql", "Reconciliation": 37}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service redis is now in state Ready	{"Service": "/redis", "Reconciliation": 39}
+info: Aspire.Hosting.DistributedApplication[0]
+      Distributed application started. Press Ctrl+C to shut down.
+info: Aspire.Hosting.Dcp.dcpctrl.ExecutableReconciler[0]
+      Starting process...	{"Executable": "/worker3-atnuqvmf", "Reconciliation": 12, "Executable": "/usr/local/share/dotnet/dotnet", "Args": ["run", "--no-build", "--project", "/Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj", "-c", "Debug", "--no-launch-profile"]}
+info: Aspire.Hosting.Dcp.dcpctrl.ExecutableReconciler[0]
+      Starting process...	{"Executable": "/worker2-kzvpqxyc", "Reconciliation": 13, "Executable": "/usr/local/share/dotnet/dotnet", "Args": ["run", "--no-build", "--project", "/Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj", "-c", "Debug", "--no-launch-profile"]}
+info: Aspire.Hosting.Dcp.dcpctrl.ExecutableReconciler[0]
+      Starting process...	{"Executable": "/worker1-uxwzbqxj", "Reconciliation": 14, "Executable": "/usr/local/share/dotnet/dotnet", "Args": ["run", "--no-build", "--project", "/Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj", "-c", "Debug", "--no-launch-profile"]}
+info: Aspire.Hosting.Dcp.dcpctrl.ExecutableReconciler[0]
+      Starting process...	{"Executable": "/api-xjgbkjeh", "Reconciliation": 15, "Executable": "/usr/local/share/dotnet/dotnet", "Args": ["run", "--no-build", "--project", "/Users/employment/Dev/Mediatr.Hangfire/example/MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj", "-c", "Debug", "--no-launch-profile"]}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service worker3 is now in state Ready	{"Service": "/worker3", "Reconciliation": 41}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service worker2 is now in state Ready	{"Service": "/worker2", "Reconciliation": 42}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service worker1 is now in state Ready	{"Service": "/worker1", "Reconciliation": 43}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service api-https is now in state Ready	{"Service": "/api-https", "Reconciliation": 47}
+info: Aspire.Hosting.Dcp.dcpctrl.ServiceReconciler[0]
+      service api-http is now in state Ready	{"Service": "/api-http", "Reconciliation": 48}
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://localhost:20001/aspire.v1.DashboardService/GetApplicationInformation - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /aspire.v1.DashboardService/GetApplicationInformation'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /aspire.v1.DashboardService/GetApplicationInformation'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST https://localhost:20001/aspire.v1.DashboardService/GetApplicationInformation - 200 - application/grpc 30.4065ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://localhost:20001/aspire.v1.DashboardService/WatchResources - application/grpc -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://localhost:20001/aspire.v1.DashboardService/WatchInteractions - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /aspire.v1.DashboardService/WatchInteractions'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /aspire.v1.DashboardService/WatchResources'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://localhost:20001/aspire.v1.DashboardService/WatchResourceConsoleLogs - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /aspire.v1.DashboardService/WatchResourceConsoleLogs'

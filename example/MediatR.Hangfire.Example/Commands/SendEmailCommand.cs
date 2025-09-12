@@ -1,5 +1,6 @@
 using MediatR;
 using MediatR.Hangfire.Example.Services;
+using MediatR.Hangfire.Extensions.Logging;
 
 namespace MediatR.Hangfire.Example.Commands;
 
@@ -26,6 +27,7 @@ public class SendEmailCommandHandler : IRequestHandler<SendEmailCommand>
     {
         _emailService = emailService;
         _logger = logger;
+        _logger = _logger.WithHangfireConsole();
     }
 
     public async Task Handle(SendEmailCommand request, CancellationToken cancellationToken)
