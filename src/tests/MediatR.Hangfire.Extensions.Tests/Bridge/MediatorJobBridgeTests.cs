@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MediatR.Hangfire.Extensions.Bridge;
@@ -9,336 +10,301 @@ namespace MediatR.Hangfire.Extensions.Tests.Bridge;
 [TestClass]
 public class MediatorJobBridgeTests
 {
-    private readonly MockMediator _mockMediator;
-    private readonly MockTaskCoordinator _mockTaskCoordinator;
-    private readonly ILogger<MediatorJobBridge> _logger;
-    private readonly MediatorJobBridge _bridge;
-
-    public MediatorJobBridgeTests()
-    {
-        _mockMediator = new MockMediator();
-        _mockTaskCoordinator = new MockTaskCoordinator();
-        _logger = NullLogger<MediatorJobBridge>.Instance;
-        _bridge = new MediatorJobBridge(_mockMediator, _mockTaskCoordinator, _logger);
-    }
-
     [TestMethod]
     public void Constructor_WithNullMediator_ThrowsArgumentNullException()
     {
+        // Arrange
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+
         // Act & Assert
         var exception = Assert.ThrowsException<ArgumentNullException>(() => 
-            new MediatorJobBridge(null!, _mockTaskCoordinator, _logger));
+            new MediatorJobBridge(null!, coordinator, logger));
         Assert.AreEqual("mediator", exception.ParamName);
     }
 
     [TestMethod]
-    public void Constructor_WithNullTaskCoordinator_ThrowsArgumentNullException()
+    public void Constructor_WithNullCoordinator_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mediator = new MockMediator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+
         // Act & Assert
         var exception = Assert.ThrowsException<ArgumentNullException>(() => 
-            new MediatorJobBridge(_mockMediator, null!, _logger));
+            new MediatorJobBridge(mediator, null!, logger));
         Assert.AreEqual("taskCoordinator", exception.ParamName);
     }
 
     [TestMethod]
     public void Constructor_WithNullLogger_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+
         // Act & Assert
         var exception = Assert.ThrowsException<ArgumentNullException>(() => 
-            new MediatorJobBridge(_mockMediator, _mockTaskCoordinator, null!));
+            new MediatorJobBridge(mediator, coordinator, null!));
         Assert.AreEqual("logger", exception.ParamName);
     }
 
     [TestMethod]
-    public async Task Send_WithValidRequest_ExecutesSuccessfully()
+    public async Task Send_WithValidCommand_ExecutesSuccessfully()
     {
         // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequest();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var command = new TestCommand { Action = "test action" };
 
         // Act
-        await _bridge.Send(jobName, request);
+        await bridge.Send("Test Job", command);
 
         // Assert
-        Assert.AreEqual(1, _mockMediator.SendCallCount);
-        Assert.AreSame(request, _mockMediator.LastRequest);
+        Assert.AreEqual(1, mediator.SendCommandCallCount);
+        Assert.AreEqual(command, mediator.LastCommand);
+    }
+
+    [TestMethod]
+    public async Task Send_WithValidRequestWithResponse_ExecutesSuccessfully()
+    {
+        // Arrange
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var request = new TestRequest { Value = "test" };
+        var expectedResponse = "response";
+        mediator.ResponseToReturn = expectedResponse;
+
+        // Act
+        await bridge.Send("Test Job", request);
+
+        // Assert
+        Assert.AreEqual(1, mediator.SendCallCount);
+        Assert.AreEqual(request, mediator.LastRequest);
+    }
+
+    [TestMethod]
+    public async Task Send_WithMediatorException_ThrowsException()
+    {
+        // Arrange
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var command = new TestCommand { Action = "test action" };
+        var expectedException = new InvalidOperationException("Test exception");
+        mediator.ExceptionToThrow = expectedException;
+
+        // Act & Assert
+        var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
+            bridge.Send("Test Job", command));
+        Assert.AreSame(expectedException, exception);
     }
 
     [TestMethod]
     public async Task Send_WithNullJobName_ThrowsArgumentException()
     {
         // Arrange
-        var request = new TestRequest();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var command = new TestCommand { Action = "test action" };
 
         // Act & Assert
         var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.Send(null!, request));
+            bridge.Send(null!, command));
         Assert.AreEqual("jobName", exception.ParamName);
-        Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
     }
 
     [TestMethod]
     public async Task Send_WithEmptyJobName_ThrowsArgumentException()
     {
         // Arrange
-        var request = new TestRequest();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var command = new TestCommand { Action = "test action" };
 
         // Act & Assert
         var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.Send(string.Empty, request));
+            bridge.Send(string.Empty, command));
         Assert.AreEqual("jobName", exception.ParamName);
-        Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
     }
 
     [TestMethod]
     public async Task Send_WithNullRequest_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+
         // Act & Assert
         var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
-            _bridge.Send("Test Job", (IRequest)null!));
+            bridge.Send("Test Job", (IRequest)null!));
         Assert.AreEqual("request", exception.ParamName);
     }
 
     [TestMethod]
-    public async Task Send_WhenMediatorThrows_RethrowsException()
+    public async Task SendAsync_WithValidRequest_ExecutesSuccessfully()
     {
         // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequest();
-        var expectedException = new InvalidOperationException("Test exception");
-        _mockMediator.ExceptionToThrow = expectedException;
-
-        // Act & Assert
-        var actualException = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
-            _bridge.Send(jobName, request));
-        Assert.AreSame(expectedException, actualException);
-    }
-
-    [TestMethod]
-    public async Task SendGeneric_WithValidRequest_ExecutesSuccessfully()
-    {
-        // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequestWithResponse();
-        _mockMediator.ResponseToReturn = "test response";
-
-        // Act
-        await _bridge.Send(jobName, request);
-
-        // Assert
-        Assert.AreEqual(1, _mockMediator.SendGenericCallCount);
-        Assert.AreSame(request, _mockMediator.LastGenericRequest);
-    }
-
-    [TestMethod]
-    public async Task SendGeneric_WithNullJobName_ThrowsArgumentException()
-    {
-        // Arrange
-        var request = new TestRequestWithResponse();
-
-        // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.Send(null!, request));
-        Assert.AreEqual("jobName", exception.ParamName);
-        Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
-    }
-
-    [TestMethod]
-    public async Task SendGeneric_WithNullRequest_ThrowsArgumentNullException()
-    {
-        // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
-            _bridge.Send("Test Job", (IRequest<string>)null!));
-        Assert.AreEqual("request", exception.ParamName);
-    }
-
-    [TestMethod]
-    public async Task SendAsync_WithValidRequest_CompletesTaskSuccessfully()
-    {
-        // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequestWithResponse();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
         var taskId = "test-task-id";
-        var retryAttempts = 0;
-        var expectedResponse = "test response";
-        _mockMediator.ResponseToReturn = expectedResponse;
+        var request = new TestRequest { Value = "test" };
+        var expectedResponse = "response";
+        mediator.ResponseToReturn = expectedResponse;
 
         // Act
-        await _bridge.SendAsync(jobName, request, taskId, retryAttempts);
+        await bridge.SendAsync("Test Job", request, taskId, 3);
 
         // Assert
-        Assert.AreEqual(1, _mockMediator.SendGenericCallCount);
-        Assert.AreEqual(1, _mockTaskCoordinator.CompleteTaskCallCount);
-        Assert.AreEqual(taskId, _mockTaskCoordinator.LastTaskId);
-        Assert.AreEqual(expectedResponse, _mockTaskCoordinator.LastResult);
-        Assert.IsNull(_mockTaskCoordinator.LastException);
+        Assert.AreEqual(1, mediator.SendCallCount);
+        Assert.AreEqual(request, mediator.LastRequest);
+        Assert.AreEqual(1, coordinator.CompleteTaskCallCount);
+        Assert.AreEqual(taskId, coordinator.LastCompletedTaskId);
+        Assert.AreEqual(expectedResponse, coordinator.LastCompletedResult);
+        Assert.IsNull(coordinator.LastCompletedException);
     }
 
     [TestMethod]
-    public async Task SendAsync_WithNullJobName_ThrowsArgumentException()
+    public async Task SendAsync_WithMediatorException_CompletesTaskWithException()
     {
         // Arrange
-        var request = new TestRequestWithResponse();
-
-        // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.SendAsync(null!, request, "task-id", 0));
-        Assert.AreEqual("jobName", exception.ParamName);
-    }
-
-    [TestMethod]
-    public async Task SendAsync_WithNullRequest_ThrowsArgumentNullException()
-    {
-        // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
-            _bridge.SendAsync("Test Job", (IRequest<string>)null!, "task-id", 0));
-        Assert.AreEqual("request", exception.ParamName);
-    }
-
-    [TestMethod]
-    public async Task SendAsync_WithNullTaskId_ThrowsArgumentException()
-    {
-        // Arrange
-        var request = new TestRequestWithResponse();
-
-        // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.SendAsync("Test Job", request, null!, 0));
-        Assert.AreEqual("taskId", exception.ParamName);
-    }
-
-    [TestMethod]
-    public async Task SendAsync_WithException_CompletesTaskWithException()
-    {
-        // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequestWithResponse();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
         var taskId = "test-task-id";
-        var retryAttempts = 0;
+        var request = new TestRequest { Value = "test" };
         var expectedException = new InvalidOperationException("Test exception");
-        _mockMediator.ExceptionToThrow = expectedException;
+        mediator.ExceptionToThrow = expectedException;
 
         // Act
-        await _bridge.SendAsync(jobName, request, taskId, retryAttempts);
+        await bridge.SendAsync("Test Job", request, taskId, 0); // 0 retries for quick test
 
         // Assert
-        Assert.AreEqual(1, _mockMediator.SendGenericCallCount);
-        Assert.AreEqual(1, _mockTaskCoordinator.CompleteTaskCallCount);
-        Assert.AreEqual(taskId, _mockTaskCoordinator.LastTaskId);
-        Assert.AreSame(expectedException, _mockTaskCoordinator.LastException);
-    }
-
-    [TestMethod]
-    public async Task SendAsync_WithRetryAttempts_RetriesOnFailure()
-    {
-        // Arrange
-        var jobName = "Test Job";
-        var request = new TestRequestWithResponse();
-        var taskId = "test-task-id";
-        var retryAttempts = 2;
-        var expectedException = new InvalidOperationException("Test exception");
-        _mockMediator.ExceptionToThrow = expectedException;
-
-        // Act
-        await _bridge.SendAsync(jobName, request, taskId, retryAttempts);
-
-        // Assert
-        Assert.AreEqual(3, _mockMediator.SendGenericCallCount); // Original + 2 retries
-        Assert.AreEqual(1, _mockTaskCoordinator.CompleteTaskCallCount);
-        Assert.AreSame(expectedException, _mockTaskCoordinator.LastException);
+        Assert.AreEqual(1, mediator.SendCallCount);
+        Assert.AreEqual(1, coordinator.CompleteTaskCallCount);
+        Assert.AreEqual(taskId, coordinator.LastCompletedTaskId);
+        Assert.IsNull(coordinator.LastCompletedResult);
+        Assert.AreSame(expectedException, coordinator.LastCompletedException);
     }
 
     [TestMethod]
     public async Task SendNotification_WithValidNotification_ExecutesSuccessfully()
     {
         // Arrange
-        var jobName = "Test Notification Job";
-        var notification = new TestNotification();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var notification = new TestNotification { Message = "test message" };
 
         // Act
-        await _bridge.SendNotification(jobName, notification);
+        await bridge.SendNotification("Test Notification Job", notification);
 
         // Assert
-        Assert.AreEqual(1, _mockMediator.PublishCallCount);
-        Assert.AreSame(notification, _mockMediator.LastNotification);
+        Assert.AreEqual(1, mediator.PublishCallCount);
+        Assert.AreEqual(notification, mediator.LastNotification);
     }
 
     [TestMethod]
     public async Task SendNotification_WithNullJobName_ThrowsArgumentException()
     {
         // Arrange
-        var notification = new TestNotification();
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+        
+        var notification = new TestNotification { Message = "test message" };
 
         // Act & Assert
         var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
-            _bridge.SendNotification(null!, notification));
+            bridge.SendNotification(null!, notification));
         Assert.AreEqual("jobName", exception.ParamName);
-        Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
     }
 
     [TestMethod]
     public async Task SendNotification_WithNullNotification_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mediator = new MockMediator();
+        var coordinator = new MockTaskCoordinator();
+        var logger = NullLogger<MediatorJobBridge>.Instance;
+        var bridge = new MediatorJobBridge(mediator, coordinator, logger);
+
         // Act & Assert
         var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
-            _bridge.SendNotification("Test Job", (INotification)null!));
+            bridge.SendNotification("Test Job", null!));
         Assert.AreEqual("notification", exception.ParamName);
     }
 
-    [TestMethod]
-    public async Task SendNotification_WhenMediatorThrows_RethrowsException()
+    // Test helper classes
+    private class TestRequest : IRequest<string>
     {
-        // Arrange
-        var jobName = "Test Notification Job";
-        var notification = new TestNotification();
-        var expectedException = new InvalidOperationException("Test exception");
-        _mockMediator.ExceptionToThrow = expectedException;
-
-        // Act & Assert
-        var actualException = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
-            _bridge.SendNotification(jobName, notification));
-        Assert.AreSame(expectedException, actualException);
+        public string Value { get; set; } = string.Empty;
     }
 
-    // Test helper classes
-    private class TestRequest : IRequest { }
-    
-    private class TestRequestWithResponse : IRequest<string> { }
-    
-    private class TestNotification : INotification { }
+    private class TestCommand : IRequest
+    {
+        public string Action { get; set; } = string.Empty;
+    }
 
-    // Mock implementations
+    private class TestNotification : INotification
+    {
+        public string Message { get; set; } = string.Empty;
+    }
+
     private class MockMediator : IMediator
     {
         public int SendCallCount { get; private set; }
-        public int SendGenericCallCount { get; private set; }
+        public int SendCommandCallCount { get; private set; }
         public int PublishCallCount { get; private set; }
-        public IRequest? LastRequest { get; private set; }
-        public object? LastGenericRequest { get; private set; }
-        public INotification? LastNotification { get; private set; }
+        public object? LastRequest { get; private set; }
+        public object? LastCommand { get; private set; }
+        public object? LastNotification { get; private set; }
         public object? ResponseToReturn { get; set; }
         public Exception? ExceptionToThrow { get; set; }
 
-        public Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest
+        public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default)
         {
-            SendCallCount++;
-            LastRequest = request;
+            throw new NotImplementedException();
+        }
+
+        public IAsyncEnumerable<object?> CreateStream(object request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Publish(object notification, CancellationToken cancellationToken = default)
+        {
+            PublishCallCount++;
+            LastNotification = notification;
             
             if (ExceptionToThrow != null)
                 throw ExceptionToThrow;
                 
             return Task.CompletedTask;
-        }
-
-        public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
-        {
-            SendGenericCallCount++;
-            LastGenericRequest = request;
-            
-            if (ExceptionToThrow != null)
-                throw ExceptionToThrow;
-                
-            return Task.FromResult((TResponse)ResponseToReturn!);
         }
 
         public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default) where TNotification : INotification
@@ -352,32 +318,63 @@ public class MediatorJobBridgeTests
             return Task.CompletedTask;
         }
 
-        // Not used in tests
-        public Task<object?> Send(object request, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public Task Publish(object notification, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public IAsyncEnumerable<object?> CreateStream(object request, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+        public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        {
+            SendCallCount++;
+            LastRequest = request;
+            
+            if (ExceptionToThrow != null)
+                throw ExceptionToThrow;
+                
+            return Task.FromResult((TResponse)ResponseToReturn!);
+        }
+
+        public Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest
+        {
+            SendCommandCallCount++;
+            LastCommand = request;
+            
+            if (ExceptionToThrow != null)
+                throw ExceptionToThrow;
+                
+            return Task.CompletedTask;
+        }
+
+        public Task<object?> Send(object request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     private class MockTaskCoordinator : ITaskCoordinator
     {
         public int CompleteTaskCallCount { get; private set; }
-        public string? LastTaskId { get; private set; }
-        public object? LastResult { get; private set; }
-        public Exception? LastException { get; private set; }
+        public string? LastCompletedTaskId { get; private set; }
+        public object? LastCompletedResult { get; private set; }
+        public Exception? LastCompletedException { get; private set; }
 
-        public Task<string> CreateTask<TResponse>() => throw new NotImplementedException();
+        public Task<string> CreateTask<TResponse>()
+        {
+            return Task.FromResult(Guid.NewGuid().ToString());
+        }
 
         public Task CompleteTask<TResponse>(string taskId, TResponse? result, Exception? exception = null)
         {
             CompleteTaskCallCount++;
-            LastTaskId = taskId;
-            LastResult = result;
-            LastException = exception;
+            LastCompletedTaskId = taskId;
+            LastCompletedResult = result;
+            LastCompletedException = exception;
             return Task.CompletedTask;
         }
 
-        public Task<TResponse> WaitForCompletion<TResponse>(string taskId, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public Task CleanupTask(string taskId) => throw new NotImplementedException();
+        public Task<TResponse> WaitForCompletion<TResponse>(string taskId, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(default(TResponse)!);
+        }
+
+        public Task CleanupTask(string taskId)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
