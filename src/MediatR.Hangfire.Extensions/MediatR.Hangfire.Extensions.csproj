@@ -8,16 +8,16 @@
     
     <!-- Package Metadata -->
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>RossSlaney.MediatR.Hangfire.Extensions</PackageId>
-    <Title>MediatR Hangfire Extensions</Title>
+    <PackageId>MediatR.Extensions.Hangfire</PackageId>
+    <Title>MediatR Extensions for Hangfire</Title>
     <Authors>Ross Slaney</Authors>
-    <Product>MediatR.Hangfire.Extensions</Product>
+    <Product>MediatR.Extensions.Hangfire</Product>
     <Description>Background processing for MediatR commands with return values using Hangfire. Provides seamless integration between MediatR CQRS pattern and Hangfire job processing with support for fire-and-forget jobs, jobs with return values, scheduled jobs, and recurring jobs.</Description>
     <Summary>Seamless integration between MediatR CQRS pattern and Hangfire background job processing</Summary>
     <PackageTags>mediatr;hangfire;background-jobs;cqrs;async;redis;job-processing;dotnet;netcore</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/your-username/MediatR.Hangfire.Extensions</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/your-username/MediatR.Hangfire.Extensions</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ross-slaney/Mediatr.Extensions.Hangfire</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ross-slaney/Mediatr.Hangfire</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>See CHANGELOG.md for release notes</PackageReleaseNotes>

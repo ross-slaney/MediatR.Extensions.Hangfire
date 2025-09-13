@@ -1,4 +1,4 @@
-# MediatR.Hangfire.Extensions
+# MediatR.Extensions.Hangfire
 
 A comprehensive, production-ready library that provides seamless integration between MediatR's CQRS pattern and Hangfire's robust background job processing capabilities.
 
