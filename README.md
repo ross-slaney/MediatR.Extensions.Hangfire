@@ -77,6 +77,33 @@ services.AddHangfireMediatR(options =>
 });
 ```
 
+## Development Flow
+
+### Branch Strategy
+
+- **main** - Production releases (auto-publishes to NuGet)
+- **develop** - Integration branch for features
+- **feature/\*** - New features and improvements
+- **hotfix/\*** - Critical production fixes
+
+### Workflow
+
+1. **Feature Development**: Create `feature/your-feature` from `develop`
+2. **Pull Request**: Open PR to `develop` (triggers full CI: tests, coverage, quality checks)
+3. **Integration**: Merge approved PRs to `develop` (creates alpha versions)
+4. **Release**: PR from `develop` to `main` (publishes to NuGet automatically)
+
+### Versioning
+
+- **main**: `1.0.0` (production)
+- **develop**: `1.1.0-alpha.1` (pre-release)
+- **feature**: `1.1.0-alpha.2` (development)
+- **PR**: `1.1.0-PullRequest.123` (review)
+
+### Quality Gates
+
+All PRs must pass: code formatting, security scans, and coverage thresholds.
+
 ## License
 
 MIT License - See LICENSE file for details.
