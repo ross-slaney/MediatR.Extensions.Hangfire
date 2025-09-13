@@ -9,7 +9,7 @@ This directory contains unit tests for the MediatR.Hangfire.Extensions library u
 To run all tests without coverage:
 
 ```bash
-cd src/tests/MediatR.Hangfire.Extensions.Tests
+cd tests
 dotnet test
 ```
 
@@ -18,7 +18,7 @@ dotnet test
 To run tests and generate code coverage reports:
 
 ```bash
-cd src/tests/MediatR.Hangfire.Extensions.Tests
+cd tests
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 ```
 
@@ -52,14 +52,6 @@ Tests are organized by the component they test:
 
 - `Configuration/` - Tests for configuration classes like `HangfireMediatorOptions`
 - `Extensions/` - Tests for extension methods and builders
-- More directories will be added as we expand test coverage
-
-## Current Test Coverage
-
-As of the initial setup, we have basic tests covering:
-
-- `HangfireMediatorOptions` validation logic
-- `HangfireMediatorOptionsBuilder` fluent API methods
 
 ## Adding New Tests
 
@@ -81,4 +73,3 @@ The test project uses:
 ## Coverage Files
 
 - `coverage.cobertura.xml`: Generated coverage report in Cobertura XML format
-- This file can be used with other tools to generate HTML reports or integrate with CI/CD systems

@@ -202,8 +202,6 @@ curl -X POST "https://localhost:7001/api/distributeddemo/scheduled-cascade"
 - **`cleanup`**: Maintenance and cleanup tasks
 - **`default`**: General-purpose jobs
 
-## 🚀 Production Considerations
-
 ### Scaling Strategy
 
 ```yaml
@@ -227,14 +225,7 @@ worker-heavy:
     memory: "8Gi"
 ```
 
-### Infrastructure Requirements
-
-- **Redis**: Clustered for high availability
-- **SQL Server**: Always On availability groups
-- **Load Balancer**: For API container distribution
-- **Monitoring**: Prometheus + Grafana for production metrics
-
-## 🔮 Why This Demonstrates Real Value
+## Why Use This Library?
 
 ### **Before**: Monolithic Processing
 
@@ -249,15 +240,3 @@ worker-heavy:
 - **Resource optimization**: Right-size containers for their workload
 - **Fault isolation**: Worker crashes don't affect API
 - **Performance**: Parallel processing across multiple workers
-
-This architecture **demonstrates the real-world value** of the MediatR.Hangfire.Extensions library in production scenarios where background processing needs to scale independently from web traffic.
-
-## 📚 Learn More
-
-- **Aspire Documentation**: https://learn.microsoft.com/en-us/dotnet/aspire/
-- **Hangfire Documentation**: https://docs.hangfire.io/
-- **MediatR Documentation**: https://github.com/jbogard/MediatR
-
----
-
-**This example showcases why MediatR.Hangfire.Extensions would be valuable as an open-source package - it enables sophisticated distributed architectures with minimal complexity.**

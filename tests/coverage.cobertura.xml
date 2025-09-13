@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.5854" branch-rate="0.5539000000000001" version="1.9" timestamp="1757725174" lines-covered="466" lines-valid="796" branches-covered="149" branches-valid="269">
+<coverage line-rate="0.5854" branch-rate="0.5539000000000001" version="1.9" timestamp="1757790324" lines-covered="466" lines-valid="796" branches-covered="149" branches-valid="269">
   <sources>
     <source>/Users/employment/Dev/Mediatr.Hangfire/src/MediatR.Hangfire.Extensions/</source>
   </sources>
@@ -1350,62 +1350,62 @@
           <methods>
             <method name="Setup" signature="(System.IServiceProvider)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="365" hits="2" branch="False" />
-                <line number="366" hits="2" branch="False" />
-                <line number="367" hits="2" branch="False" />
+                <line number="373" hits="2" branch="False" />
+                <line number="374" hits="2" branch="False" />
+                <line number="375" hits="2" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="365" hits="2" branch="False" />
-            <line number="366" hits="2" branch="False" />
-            <line number="367" hits="2" branch="False" />
+            <line number="373" hits="2" branch="False" />
+            <line number="374" hits="2" branch="False" />
+            <line number="375" hits="2" branch="False" />
           </lines>
         </class>
         <class name="MediatR.Hangfire.Extensions.Extensions.HangfireMediatorConfigurator" filename="Extensions/ServiceCollectionExtensions.cs" line-rate="1" branch-rate="1" complexity="3">
           <methods>
             <method name="Configure" signature="()" line-rate="1" branch-rate="1" complexity="2">
               <lines>
-                <line number="391" hits="1" branch="False" />
-                <line number="392" hits="1" branch="False" />
-                <line number="395" hits="1" branch="True" condition-coverage="100% (2/2)">
+                <line number="409" hits="1" branch="False" />
+                <line number="410" hits="1" branch="False" />
+                <line number="413" hits="1" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="20" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="396" hits="1" branch="False" />
-                <line number="397" hits="1" branch="False" />
-                <line number="398" hits="1" branch="False" />
-                <line number="399" hits="1" branch="False" />
-                <line number="400" hits="1" branch="False" />
+                <line number="414" hits="1" branch="False" />
+                <line number="415" hits="1" branch="False" />
+                <line number="416" hits="1" branch="False" />
+                <line number="417" hits="1" branch="False" />
+                <line number="418" hits="1" branch="False" />
               </lines>
             </method>
             <method name=".ctor" signature="(MediatR.Hangfire.Extensions.Configuration.HangfireMediatorOptions)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="385" hits="5" branch="False" />
-                <line number="386" hits="5" branch="False" />
-                <line number="387" hits="5" branch="False" />
-                <line number="388" hits="5" branch="False" />
+                <line number="400" hits="5" branch="False" />
+                <line number="401" hits="5" branch="False" />
+                <line number="402" hits="5" branch="False" />
+                <line number="403" hits="5" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="391" hits="1" branch="False" />
-            <line number="392" hits="1" branch="False" />
-            <line number="395" hits="1" branch="True" condition-coverage="100% (2/2)">
+            <line number="409" hits="1" branch="False" />
+            <line number="410" hits="1" branch="False" />
+            <line number="413" hits="1" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="20" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="396" hits="1" branch="False" />
-            <line number="397" hits="1" branch="False" />
-            <line number="398" hits="1" branch="False" />
-            <line number="399" hits="1" branch="False" />
-            <line number="400" hits="1" branch="False" />
-            <line number="385" hits="5" branch="False" />
-            <line number="386" hits="5" branch="False" />
-            <line number="387" hits="5" branch="False" />
-            <line number="388" hits="5" branch="False" />
+            <line number="414" hits="1" branch="False" />
+            <line number="415" hits="1" branch="False" />
+            <line number="416" hits="1" branch="False" />
+            <line number="417" hits="1" branch="False" />
+            <line number="418" hits="1" branch="False" />
+            <line number="400" hits="5" branch="False" />
+            <line number="401" hits="5" branch="False" />
+            <line number="402" hits="5" branch="False" />
+            <line number="403" hits="5" branch="False" />
           </lines>
         </class>
         <class name="MediatR.Hangfire.Extensions.Coordination.InMemoryTaskCoordinator" filename="Coordination/InMemoryTaskCoordinator.cs" line-rate="0.6945999999999999" branch-rate="0.5952000000000001" complexity="43">

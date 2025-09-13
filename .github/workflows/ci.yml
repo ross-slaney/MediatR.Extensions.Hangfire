@@ -41,8 +41,8 @@ jobs:
         working-directory: ./src
 
       - name: Run tests with coverage (PR branch)
-        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../TestResults/coverage-pr.cobertura.xml
-        working-directory: ./src/tests/MediatR.Hangfire.Extensions.Tests
+        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../TestResults/coverage-pr.cobertura.xml
+        working-directory: ./tests
 
       - name: Generate base branch coverage (for PR comparison)
         if: github.event_name == 'pull_request'
@@ -57,16 +57,17 @@ jobs:
           git checkout ${{ github.event.pull_request.base.ref }}
 
           # Restore dependencies and build base branch
-          dotnet restore MediatR.Hangfire.Extensions.sln
-          dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
+          dotnet restore src/MediatR.Hangfire.Extensions.sln
+          dotnet build src/MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
 
           # Run tests with coverage for base branch
-          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../TestResults/coverage-base.cobertura.xml
+          cd tests
+          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../TestResults/coverage-base.cobertura.xml
+          cd ../
 
           # Switch back to PR branch
           git checkout ${{ github.sha }}
           git stash pop || true
-        working-directory: ./src
         continue-on-error: true
 
       - name: Install diff-cover and dependencies
