@@ -36,9 +36,17 @@ jobs:
         run: dotnet restore MediatR.Hangfire.Extensions.sln
         working-directory: ./src
 
+      - name: Restore test dependencies
+        run: dotnet restore
+        working-directory: ./tests
+
       - name: Build
         run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
         working-directory: ./src
+
+      - name: Build tests
+        run: dotnet build --no-restore --configuration Release
+        working-directory: ./tests
 
       - name: Run tests with coverage (PR branch)
         run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../TestResults/coverage-pr.cobertura.xml
@@ -60,8 +68,12 @@ jobs:
           dotnet restore src/MediatR.Hangfire.Extensions.sln
           dotnet build src/MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
 
-          # Run tests with coverage for base branch
+          # Restore and build tests for base branch
           cd tests
+          dotnet restore
+          dotnet build --no-restore --configuration Release
+
+          # Run tests with coverage for base branch
           dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../TestResults/coverage-base.cobertura.xml
           cd ../
 
