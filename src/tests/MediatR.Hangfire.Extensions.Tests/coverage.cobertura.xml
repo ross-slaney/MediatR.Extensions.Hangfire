@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.5854" branch-rate="0.5539000000000001" version="1.9" timestamp="1757723831" lines-covered="466" lines-valid="796" branches-covered="149" branches-valid="269">
+<coverage line-rate="0.5854" branch-rate="0.5539000000000001" version="1.9" timestamp="1757725174" lines-covered="466" lines-valid="796" branches-covered="149" branches-valid="269">
   <sources>
     <source>/Users/employment/Dev/Mediatr.Hangfire/src/MediatR.Hangfire.Extensions/</source>
   </sources>
@@ -1598,13 +1598,13 @@
                     <condition number="8" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="248" hits="98" branch="True" condition-coverage="100% (2/2)">
+                <line number="248" hits="96" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="88" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="249" hits="13" branch="False" />
-                <line number="250" hits="13" branch="True" condition-coverage="100% (2/2)">
+                <line number="249" hits="12" branch="False" />
+                <line number="250" hits="12" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="64" type="jump" coverage="100%" />
                   </conditions>
@@ -1612,7 +1612,7 @@
                 <line number="251" hits="7" branch="False" />
                 <line number="252" hits="7" branch="False" />
                 <line number="253" hits="7" branch="False" />
-                <line number="254" hits="13" branch="False" />
+                <line number="254" hits="12" branch="False" />
                 <line number="256" hits="24" branch="False" />
                 <line number="257" hits="24" branch="False" />
                 <line number="258" hits="24" branch="False" />
@@ -1809,13 +1809,13 @@
                 <condition number="8" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="248" hits="98" branch="True" condition-coverage="100% (2/2)">
+            <line number="248" hits="96" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="88" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="249" hits="13" branch="False" />
-            <line number="250" hits="13" branch="True" condition-coverage="100% (2/2)">
+            <line number="249" hits="12" branch="False" />
+            <line number="250" hits="12" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="64" type="jump" coverage="100%" />
               </conditions>
@@ -1823,7 +1823,7 @@
             <line number="251" hits="7" branch="False" />
             <line number="252" hits="7" branch="False" />
             <line number="253" hits="7" branch="False" />
-            <line number="254" hits="13" branch="False" />
+            <line number="254" hits="12" branch="False" />
             <line number="256" hits="24" branch="False" />
             <line number="257" hits="24" branch="False" />
             <line number="258" hits="24" branch="False" />

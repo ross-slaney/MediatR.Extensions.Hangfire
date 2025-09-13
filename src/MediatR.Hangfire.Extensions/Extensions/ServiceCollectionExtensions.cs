@@ -353,6 +353,10 @@ public class HangfireMediatorOptionsBuilder
 /// </summary>
 public interface IServiceLocatorSetup
 {
+    /// <summary>
+    /// Sets up the service locator with the provided service provider
+    /// </summary>
+    /// <param name="serviceProvider">The service provider to use for service resolution</param>
     void Setup(IServiceProvider serviceProvider);
 }
 
@@ -361,6 +365,10 @@ public interface IServiceLocatorSetup
 /// </summary>
 public class ServiceLocatorSetup : IServiceLocatorSetup
 {
+    /// <summary>
+    /// Sets up the service locator with the provided service provider
+    /// </summary>
+    /// <param name="serviceProvider">The service provider to use for service resolution</param>
     public void Setup(IServiceProvider serviceProvider)
     {
         ServiceLocator.Current = serviceProvider;
@@ -372,6 +380,9 @@ public class ServiceLocatorSetup : IServiceLocatorSetup
 /// </summary>
 public interface IHangfireMediatorConfigurator
 {
+    /// <summary>
+    /// Configures Hangfire with the MediatR-specific settings
+    /// </summary>
     void Configure();
 }
 
@@ -382,11 +393,18 @@ public class HangfireMediatorConfigurator : IHangfireMediatorConfigurator
 {
     private readonly HangfireMediatorOptions _options;
 
+    /// <summary>
+    /// Initializes a new instance of the HangfireMediatorConfigurator
+    /// </summary>
+    /// <param name="options">The configuration options for MediatR-Hangfire integration</param>
     public HangfireMediatorConfigurator(HangfireMediatorOptions options)
     {
         _options = options;
     }
 
+    /// <summary>
+    /// Configures Hangfire with the MediatR-specific settings
+    /// </summary>
     public void Configure()
     {
         var configuration = GlobalConfiguration.Configuration;

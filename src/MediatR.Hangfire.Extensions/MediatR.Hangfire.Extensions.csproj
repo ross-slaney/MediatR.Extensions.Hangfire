@@ -5,16 +5,33 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    
+    <!-- Package Metadata -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>MediatR.Hangfire.Extensions</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
-    <Authors>MediatR.Hangfire.Extensions Contributors</Authors>
+    <Title>MediatR Hangfire Extensions</Title>
+    <Authors>Ross Slaney</Authors>
+    <Product>MediatR.Hangfire.Extensions</Product>
     <Description>Background processing for MediatR commands with return values using Hangfire. Provides seamless integration between MediatR CQRS pattern and Hangfire job processing with support for fire-and-forget jobs, jobs with return values, scheduled jobs, and recurring jobs.</Description>
-    <PackageTags>mediatr;hangfire;background-jobs;cqrs;async;redis</PackageTags>
+    <Summary>Seamless integration between MediatR CQRS pattern and Hangfire background job processing</Summary>
+    <PackageTags>mediatr;hangfire;background-jobs;cqrs;async;redis;job-processing;dotnet;netcore</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/your-org/MediatR.Hangfire.Extensions</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/your-org/MediatR.Hangfire.Extensions</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/your-username/MediatR.Hangfire.Extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/your-username/MediatR.Hangfire.Extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>See CHANGELOG.md for release notes</PackageReleaseNotes>
+    
+    <!-- Icon and Documentation -->
+    <PackageIcon Condition="Exists('icon.png')">icon.png</PackageIcon>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+    <!-- Version will be set by GitVersion in CI -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +43,12 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" Condition="Exists('icon.png')" />
   </ItemGroup>
 
 
