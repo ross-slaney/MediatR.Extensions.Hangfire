@@ -17,7 +17,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseRedis("localhost:6379");
             options.WithRetryAttempts(3);
@@ -28,7 +28,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var serviceProvider = services.BuildServiceProvider();
         var optionsSnapshot = serviceProvider.GetService<IOptionsSnapshot<HangfireMediatorOptions>>();
         Assert.IsNotNull(optionsSnapshot);
-        
+
         var options = optionsSnapshot.Value;
         Assert.IsFalse(options.UseInMemoryCoordination);
         Assert.AreEqual("localhost:6379", options.RedisConnectionString);
@@ -43,7 +43,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseRedis("localhost:6379", "myapp:");
         });
@@ -63,7 +63,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var expectedTimeout = TimeSpan.FromMinutes(15);
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseInMemory();
             options.WithTaskTimeout(expectedTimeout);
@@ -83,7 +83,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseInMemory();
             options.WithMaxConcurrentJobs(20);
@@ -104,7 +104,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var expectedTimeout = TimeSpan.FromHours(2);
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseInMemory();
             options.WithJobExecutionTimeout(expectedTimeout);
@@ -124,7 +124,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseInMemory();
             options.WithDetailedLogging(true);
@@ -145,7 +145,7 @@ public class ServiceCollectionExtensionsAdvancedTests
         var retentionPeriod = TimeSpan.FromDays(3);
 
         // Act
-        services.AddHangfireMediatR(options => 
+        services.AddHangfireMediatR(options =>
         {
             options.UseInMemory();
             options.WithJobCleanup(true, retentionPeriod);
@@ -164,7 +164,7 @@ public class ServiceCollectionExtensionsAdvancedTests
     {
         // Arrange
         var services = new ServiceCollection();
-        
+
         // Add required services to satisfy dependencies
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceCollectionExtensionsAdvancedTests).Assembly));
         services.AddLogging();
@@ -174,18 +174,18 @@ public class ServiceCollectionExtensionsAdvancedTests
 
         // Assert
         var serviceProvider = services.BuildServiceProvider();
-        
+
         // Check that core services are registered
         var bridge = serviceProvider.GetService<IMediatorJobBridge>();
         Assert.IsNotNull(bridge);
-        
+
         var coordinator = serviceProvider.GetService<ITaskCoordinator>();
         Assert.IsNotNull(coordinator);
         Assert.IsInstanceOfType(coordinator, typeof(InMemoryTaskCoordinator));
-        
+
         var serviceLocatorSetup = serviceProvider.GetService<IServiceLocatorSetup>();
         Assert.IsNotNull(serviceLocatorSetup);
-        
+
         var hangfireConfigurator = serviceProvider.GetService<IHangfireMediatorConfigurator>();
         Assert.IsNotNull(hangfireConfigurator);
     }
@@ -197,13 +197,13 @@ public class ServiceCollectionExtensionsAdvancedTests
         var services = new ServiceCollection();
         var serviceProvider = services.BuildServiceProvider();
         var setup = new ServiceLocatorSetup();
-        
+
         // Act
         setup.Setup(serviceProvider);
-        
+
         // Assert
         Assert.AreSame(serviceProvider, ServiceLocator.Current);
-        
+
         // Cleanup
         ServiceLocator.Current = null;
     }
@@ -213,10 +213,10 @@ public class ServiceCollectionExtensionsAdvancedTests
     {
         // Arrange
         var options = new HangfireMediatorOptions();
-        
+
         // Act
         var configurator = new HangfireMediatorConfigurator(options);
-        
+
         // Assert
         Assert.IsNotNull(configurator);
     }
@@ -229,11 +229,11 @@ public class ServiceCollectionExtensionsAdvancedTests
         {
             EnableConsoleLogging = false // Avoid global console state issues
         };
-        
+
         // Act & Assert - Should be able to create the configurator
         var configurator = new HangfireMediatorConfigurator(options);
         Assert.IsNotNull(configurator);
-        
+
         // Note: We don't test Configure() here as it affects global Hangfire state
         // and conflicts with other tests. In practice, this would be tested in
         // integration tests where the full Hangfire environment is set up.

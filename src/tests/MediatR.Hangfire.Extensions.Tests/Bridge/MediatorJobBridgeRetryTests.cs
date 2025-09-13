@@ -17,11 +17,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedResponse = "success";
-        
+
         // Configure to fail once, then succeed
         mediator.FailuresBeforeSuccess = 1;
         mediator.ResponseToReturn = expectedResponse;
@@ -45,11 +45,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedException = new InvalidOperationException("Test exception");
-        
+
         // Configure to always fail
         mediator.ExceptionToThrow = expectedException;
 
@@ -72,11 +72,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedException = new InvalidOperationException("Test exception");
-        
+
         mediator.ExceptionToThrow = expectedException;
 
         // Act
@@ -98,11 +98,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedResponse = "final success";
-        
+
         // Configure to fail 2 times, succeed on 3rd attempt
         mediator.FailuresBeforeSuccess = 2;
         mediator.ResponseToReturn = expectedResponse;
@@ -126,11 +126,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var request = new TestRequest { Value = "test" };
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             bridge.SendAsync("Test Job", request, null!, 3));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -143,11 +143,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var request = new TestRequest { Value = "test" };
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             bridge.SendAsync("Test Job", request, string.Empty, 3));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -160,11 +160,11 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
             bridge.SendAsync<string>("Test Job", null!, taskId, 3));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -177,10 +177,10 @@ public class MediatorJobBridgeRetryTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
-        
+
         var exceptionTypes = new Exception[]
         {
             new ArgumentException("Argument error"),

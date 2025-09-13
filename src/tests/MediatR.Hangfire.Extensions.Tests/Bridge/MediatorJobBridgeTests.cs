@@ -18,7 +18,7 @@ public class MediatorJobBridgeTests
         var logger = NullLogger<MediatorJobBridge>.Instance;
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new MediatorJobBridge(null!, coordinator, logger));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -31,7 +31,7 @@ public class MediatorJobBridgeTests
         var logger = NullLogger<MediatorJobBridge>.Instance;
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new MediatorJobBridge(mediator, null!, logger));
         Assert.AreEqual("taskCoordinator", exception.ParamName);
     }
@@ -44,7 +44,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new MediatorJobBridge(mediator, coordinator, null!));
         Assert.AreEqual("logger", exception.ParamName);
     }
@@ -57,7 +57,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var command = new TestCommand { Action = "test action" };
 
         // Act
@@ -76,7 +76,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var request = new TestRequest { Value = "test" };
         var expectedResponse = "response";
         mediator.ResponseToReturn = expectedResponse;
@@ -97,13 +97,13 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var command = new TestCommand { Action = "test action" };
         var expectedException = new InvalidOperationException("Test exception");
         mediator.ExceptionToThrow = expectedException;
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
             bridge.Send("Test Job", command));
         Assert.AreSame(expectedException, exception);
     }
@@ -116,11 +116,11 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var command = new TestCommand { Action = "test action" };
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             bridge.Send(null!, command));
         Assert.AreEqual("jobName", exception.ParamName);
     }
@@ -133,11 +133,11 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var command = new TestCommand { Action = "test action" };
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             bridge.Send(string.Empty, command));
         Assert.AreEqual("jobName", exception.ParamName);
     }
@@ -152,7 +152,7 @@ public class MediatorJobBridgeTests
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
             bridge.Send("Test Job", (IRequest)null!));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -165,7 +165,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedResponse = "response";
@@ -191,7 +191,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var taskId = "test-task-id";
         var request = new TestRequest { Value = "test" };
         var expectedException = new InvalidOperationException("Test exception");
@@ -216,7 +216,7 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var notification = new TestNotification { Message = "test message" };
 
         // Act
@@ -235,11 +235,11 @@ public class MediatorJobBridgeTests
         var coordinator = new MockTaskCoordinator();
         var logger = NullLogger<MediatorJobBridge>.Instance;
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
-        
+
         var notification = new TestNotification { Message = "test message" };
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             bridge.SendNotification(null!, notification));
         Assert.AreEqual("jobName", exception.ParamName);
     }
@@ -254,7 +254,7 @@ public class MediatorJobBridgeTests
         var bridge = new MediatorJobBridge(mediator, coordinator, logger);
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
             bridge.SendNotification("Test Job", null!));
         Assert.AreEqual("notification", exception.ParamName);
     }
@@ -300,10 +300,10 @@ public class MediatorJobBridgeTests
         {
             PublishCallCount++;
             LastNotification = notification;
-            
+
             if (ExceptionToThrow != null)
                 throw ExceptionToThrow;
-                
+
             return Task.CompletedTask;
         }
 
@@ -311,10 +311,10 @@ public class MediatorJobBridgeTests
         {
             PublishCallCount++;
             LastNotification = notification;
-            
+
             if (ExceptionToThrow != null)
                 throw ExceptionToThrow;
-                
+
             return Task.CompletedTask;
         }
 
@@ -322,10 +322,10 @@ public class MediatorJobBridgeTests
         {
             SendCallCount++;
             LastRequest = request;
-            
+
             if (ExceptionToThrow != null)
                 throw ExceptionToThrow;
-                
+
             return Task.FromResult((TResponse)ResponseToReturn!);
         }
 
@@ -333,10 +333,10 @@ public class MediatorJobBridgeTests
         {
             SendCommandCallCount++;
             LastCommand = request;
-            
+
             if (ExceptionToThrow != null)
                 throw ExceptionToThrow;
-                
+
             return Task.CompletedTask;
         }
 

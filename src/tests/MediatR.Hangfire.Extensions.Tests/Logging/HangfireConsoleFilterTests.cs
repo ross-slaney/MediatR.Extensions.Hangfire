@@ -28,7 +28,7 @@ public class HangfireConsoleFilterTests
     {
         // Act & Assert - Should not throw
         _filter.OnPerforming(null!);
-        
+
         // Current should still be null
         Assert.IsNull(HangfireConsoleFilter.Current);
     }
@@ -38,7 +38,7 @@ public class HangfireConsoleFilterTests
     {
         // Act & Assert - Should not throw
         _filter.OnPerformed(null!);
-        
+
         // Current should still be null
         Assert.IsNull(HangfireConsoleFilter.Current);
     }

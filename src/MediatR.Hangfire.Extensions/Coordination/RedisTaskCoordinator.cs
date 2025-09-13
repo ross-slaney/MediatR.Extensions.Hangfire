@@ -37,7 +37,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
         _redis = redis ?? throw new ArgumentNullException(nameof(redis));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-        
+
         _database = _redis.GetDatabase();
         _subscriber = _redis.GetSubscriber();
     }
@@ -58,10 +58,10 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
 
         var key = _keyPrefix + taskId;
         var serializedState = JsonConvert.SerializeObject(taskState);
-        
+
         await _database.StringSetAsync(key, serializedState, _options.DefaultTaskTimeout);
-        
-        _logger.LogDebug("Created task coordination context: {TaskId} for type: {ResponseType}", 
+
+        _logger.LogDebug("Created task coordination context: {TaskId} for type: {ResponseType}",
             taskId, typeof(TResponse).Name);
 
         return taskId;
@@ -99,7 +99,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
             // Update task state
             taskState.Status = exception == null ? TaskStatus.Completed : TaskStatus.Failed;
             taskState.CompletedAt = DateTimeOffset.UtcNow;
-            
+
             if (exception == null)
             {
                 taskState.Result = JsonConvert.SerializeObject(result);
@@ -108,7 +108,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
             else
             {
                 taskState.Exception = JsonConvert.SerializeObject(new SerializableException(exception));
-                _logger.LogDebug("Completing task {TaskId} with exception: {ExceptionType}", 
+                _logger.LogDebug("Completing task {TaskId} with exception: {ExceptionType}",
                     taskId, exception.GetType().Name);
             }
 
@@ -139,7 +139,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
         var key = _keyPrefix + taskId;
         var channel = _channelPrefix + taskId;
         var tcs = new TaskCompletionSource<string>();
-        
+
         _pendingTasks[taskId] = tcs;
 
         try
@@ -223,7 +223,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
             return;
 
         var key = _keyPrefix + taskId;
-        
+
         try
         {
             await _database.KeyDeleteAsync(key);

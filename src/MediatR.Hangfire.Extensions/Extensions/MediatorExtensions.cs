@@ -77,9 +77,9 @@ public static class MediatorExtensions
     /// </code>
     /// </example>
     public static async Task<TResponse> EnqueueAsync<TResponse>(
-        this IMediator mediator, 
-        string jobName, 
-        IRequest<TResponse> request, 
+        this IMediator mediator,
+        string jobName,
+        IRequest<TResponse> request,
         int retryAttempts = 0)
     {
         if (mediator == null) throw new ArgumentNullException(nameof(mediator));
@@ -95,7 +95,7 @@ public static class MediatorExtensions
 
         // Create task coordination context
         var taskId = await taskCoordinator.CreateTask<TResponse>();
-        
+
         logger?.LogDebug("Created background job task: {JobName} with ID: {TaskId}", jobName, taskId);
 
         try
@@ -106,10 +106,10 @@ public static class MediatorExtensions
 
             // Wait for completion
             var result = await taskCoordinator.WaitForCompletion<TResponse>(taskId);
-            
+
             // Cleanup task resources
             await taskCoordinator.CleanupTask(taskId);
-            
+
             return result;
         }
         catch
@@ -266,10 +266,10 @@ public static class MediatorExtensions
     /// </code>
     /// </example>
     public static void AddOrUpdate(
-        this IMediator mediator, 
-        string jobName, 
-        IRequest request, 
-        string cronExpression, 
+        this IMediator mediator,
+        string jobName,
+        IRequest request,
+        string cronExpression,
         TimeZoneInfo? timeZone = null)
     {
         if (mediator == null) throw new ArgumentNullException(nameof(mediator));
@@ -302,10 +302,10 @@ public static class MediatorExtensions
     /// <exception cref="ArgumentNullException">Thrown when mediator or request is null</exception>
     /// <exception cref="ArgumentException">Thrown when jobName or cronExpression is null or empty</exception>
     public static void AddOrUpdate<TResponse>(
-        this IMediator mediator, 
-        string jobName, 
-        IRequest<TResponse> request, 
-        string cronExpression, 
+        this IMediator mediator,
+        string jobName,
+        IRequest<TResponse> request,
+        string cronExpression,
         TimeZoneInfo? timeZone = null)
     {
         if (mediator == null) throw new ArgumentNullException(nameof(mediator));

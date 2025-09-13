@@ -124,12 +124,12 @@ public class HangfireMediatorOptionsBuilderTests
     // Helper method to access the internal Build method using reflection
     private static MediatR.Hangfire.Extensions.Configuration.HangfireMediatorOptions GetBuiltOptions(HangfireMediatorOptionsBuilder builder)
     {
-        var buildMethod = typeof(HangfireMediatorOptionsBuilder).GetMethod("Build", 
+        var buildMethod = typeof(HangfireMediatorOptionsBuilder).GetMethod("Build",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        
+
         if (buildMethod == null)
             throw new InvalidOperationException("Build method not found");
-            
+
         var options = buildMethod.Invoke(builder, null);
         return (MediatR.Hangfire.Extensions.Configuration.HangfireMediatorOptions)options!;
     }

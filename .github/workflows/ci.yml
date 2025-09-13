@@ -123,11 +123,11 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore example dependencies
-        run: dotnet restore
+        run: dotnet restore MediatR.Hangfire.Example.sln
         working-directory: ./example
 
       - name: Build example
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build MediatR.Hangfire.Example.sln --no-restore --configuration Release
         working-directory: ./example
 
   quality-checks:

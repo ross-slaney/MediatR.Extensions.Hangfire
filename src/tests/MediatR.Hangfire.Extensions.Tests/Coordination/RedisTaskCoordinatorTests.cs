@@ -19,7 +19,7 @@ public class RedisTaskCoordinatorTests
         var options = Options.Create(new HangfireMediatorOptions { RedisConnectionString = "localhost" });
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new RedisTaskCoordinator(null!, logger, options));
         Assert.AreEqual("redis", exception.ParamName);
     }
@@ -32,7 +32,7 @@ public class RedisTaskCoordinatorTests
         var options = Options.Create(new HangfireMediatorOptions { RedisConnectionString = "localhost" });
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new RedisTaskCoordinator(mockRedis, null!, options));
         Assert.AreEqual("logger", exception.ParamName);
     }
@@ -45,7 +45,7 @@ public class RedisTaskCoordinatorTests
         var logger = NullLogger<RedisTaskCoordinator>.Instance;
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new RedisTaskCoordinator(mockRedis, logger, null!));
         Assert.AreEqual("options", exception.ParamName);
     }
@@ -56,10 +56,10 @@ public class RedisTaskCoordinatorTests
         var mockDatabase = new Moq.Mock<IDatabase>();
         var mockSubscriber = new Moq.Mock<ISubscriber>();
         var mockRedis = new Moq.Mock<IConnectionMultiplexer>();
-        
+
         mockRedis.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDatabase.Object);
         mockRedis.Setup(x => x.GetSubscriber(It.IsAny<object>())).Returns(mockSubscriber.Object);
-        
+
         return mockRedis.Object;
     }
 }

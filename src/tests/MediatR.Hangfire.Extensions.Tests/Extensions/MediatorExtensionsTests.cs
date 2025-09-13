@@ -21,7 +21,7 @@ public class MediatorExtensionsTests
         var request = new TestRequest();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.Enqueue("Test Job", request));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -33,7 +33,7 @@ public class MediatorExtensionsTests
         var request = new TestRequest();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Enqueue(null!, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -46,7 +46,7 @@ public class MediatorExtensionsTests
         var request = new TestRequest();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Enqueue(string.Empty, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -56,7 +56,7 @@ public class MediatorExtensionsTests
     public void Enqueue_WithNullRequest_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.Enqueue("Test Job", (IRequest)null!));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -69,7 +69,7 @@ public class MediatorExtensionsTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.Enqueue("Test Job", request));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -81,7 +81,7 @@ public class MediatorExtensionsTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Enqueue(null!, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -94,7 +94,7 @@ public class MediatorExtensionsTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Enqueue(string.Empty, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -104,7 +104,7 @@ public class MediatorExtensionsTests
     public void EnqueueGeneric_WithNullRequest_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.Enqueue("Test Job", (IRequest<string>)null!));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -117,7 +117,7 @@ public class MediatorExtensionsTests
         var notification = new TestNotification();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.EnqueueNotification("Test Job", notification));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -129,7 +129,7 @@ public class MediatorExtensionsTests
         var notification = new TestNotification();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.EnqueueNotification(null!, notification));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -142,7 +142,7 @@ public class MediatorExtensionsTests
         var notification = new TestNotification();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.EnqueueNotification(string.Empty, notification));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -152,7 +152,7 @@ public class MediatorExtensionsTests
     public void EnqueueNotification_WithNullNotification_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.EnqueueNotification("Test Job", (INotification)null!));
         Assert.AreEqual("notification", exception.ParamName);
     }
@@ -166,7 +166,7 @@ public class MediatorExtensionsTests
         var delay = TimeSpan.FromMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.Schedule("Test Job", request, delay));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -179,7 +179,7 @@ public class MediatorExtensionsTests
         var delay = TimeSpan.FromMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Schedule(null!, request, delay));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -192,7 +192,7 @@ public class MediatorExtensionsTests
         var delay = TimeSpan.FromMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.Schedule("Test Job", (IRequest)null!, delay));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -206,7 +206,7 @@ public class MediatorExtensionsTests
         var enqueueAt = DateTimeOffset.UtcNow.AddMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.Schedule("Test Job", request, enqueueAt));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -219,7 +219,7 @@ public class MediatorExtensionsTests
         var enqueueAt = DateTimeOffset.UtcNow.AddMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.Schedule(null!, request, enqueueAt));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -232,7 +232,7 @@ public class MediatorExtensionsTests
         var enqueueAt = DateTimeOffset.UtcNow.AddMinutes(5);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.Schedule("Test Job", (IRequest)null!, enqueueAt));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -246,7 +246,7 @@ public class MediatorExtensionsTests
         var cronExpression = "0 9 * * *";
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.AddOrUpdate("Test Job", request, cronExpression));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -259,7 +259,7 @@ public class MediatorExtensionsTests
         var cronExpression = "0 9 * * *";
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.AddOrUpdate(null!, request, cronExpression));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -272,7 +272,7 @@ public class MediatorExtensionsTests
         var cronExpression = "0 9 * * *";
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             _mockMediator.AddOrUpdate("Test Job", (IRequest)null!, cronExpression));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -284,7 +284,7 @@ public class MediatorExtensionsTests
         var request = new TestRequest();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.AddOrUpdate("Test Job", request, null!));
         Assert.AreEqual("cronExpression", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Cron expression must be provided"));
@@ -297,7 +297,7 @@ public class MediatorExtensionsTests
         var request = new TestRequest();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.AddOrUpdate("Test Job", request, string.Empty));
         Assert.AreEqual("cronExpression", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Cron expression must be provided"));
@@ -310,7 +310,7 @@ public class MediatorExtensionsTests
         IMediator? nullMediator = null;
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.TriggerRecurringJob("Test Job"));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -319,7 +319,7 @@ public class MediatorExtensionsTests
     public void TriggerRecurringJob_WithNullJobName_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.TriggerRecurringJob(null!));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -329,7 +329,7 @@ public class MediatorExtensionsTests
     public void TriggerRecurringJob_WithEmptyJobName_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.TriggerRecurringJob(string.Empty));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -342,7 +342,7 @@ public class MediatorExtensionsTests
         IMediator? nullMediator = null;
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             nullMediator!.RemoveRecurringJob("Test Job"));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -351,7 +351,7 @@ public class MediatorExtensionsTests
     public void RemoveRecurringJob_WithNullJobName_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.RemoveRecurringJob(null!));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -361,7 +361,7 @@ public class MediatorExtensionsTests
     public void RemoveRecurringJob_WithEmptyJobName_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentException>(() => 
+        var exception = Assert.ThrowsException<ArgumentException>(() =>
             _mockMediator.RemoveRecurringJob(string.Empty));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -369,9 +369,9 @@ public class MediatorExtensionsTests
 
     // Test helper classes
     private class TestRequest : IRequest { }
-    
+
     private class TestRequestWithResponse : IRequest<string> { }
-    
+
     private class TestNotification : INotification { }
 
     // Mock mediator for testing (doesn't need to actually work, just needs to exist)

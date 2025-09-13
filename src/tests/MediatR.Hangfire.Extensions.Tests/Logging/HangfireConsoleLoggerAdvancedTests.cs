@@ -29,7 +29,7 @@ public class HangfireConsoleLoggerAdvancedTests
             hangfireLogger.Log(logLevel, new EventId(), "test message", null, (s, ex) => s);
             Assert.AreEqual(logLevel, mockLogger.LastLogLevel);
         }
-        
+
         Assert.AreEqual(logLevels.Length, mockLogger.LogCallCount);
     }
 
@@ -95,10 +95,10 @@ public class HangfireConsoleLoggerAdvancedTests
         foreach (var logLevel in logLevels)
         {
             if (logLevel == LogLevel.None) continue; // Skip None
-            
+
             mockLogger.IsEnabledResult = logLevel >= LogLevel.Information;
             var result = hangfireLogger.IsEnabled(logLevel);
-            
+
             Assert.AreEqual(mockLogger.IsEnabledResult, result);
             Assert.AreEqual(logLevel, mockLogger.LastLogLevelChecked);
         }
@@ -211,10 +211,10 @@ public class HangfireConsoleLoggerAdvancedTests
         public EventId LastEventId { get; private set; }
         public object? LastState { get; private set; }
         public Exception? LastException { get; private set; }
-        
+
         public LogLevel LastLogLevelChecked { get; private set; }
         public bool IsEnabledResult { get; set; } = true;
-        
+
         public object? LastScopeState { get; private set; }
         public IDisposable? ScopeToReturn { get; set; }
 

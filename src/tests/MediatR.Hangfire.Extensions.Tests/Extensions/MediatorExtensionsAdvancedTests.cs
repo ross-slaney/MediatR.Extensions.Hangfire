@@ -18,7 +18,7 @@ public class MediatorExtensionsAdvancedTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
             nullMediator!.EnqueueAsync("Test Job", request));
         Assert.AreEqual("mediator", exception.ParamName);
     }
@@ -31,7 +31,7 @@ public class MediatorExtensionsAdvancedTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             mockMediator.EnqueueAsync(null!, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -45,7 +45,7 @@ public class MediatorExtensionsAdvancedTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             mockMediator.EnqueueAsync(string.Empty, request));
         Assert.AreEqual("jobName", exception.ParamName);
         Assert.IsTrue(exception.Message.Contains("Job name must be provided"));
@@ -58,7 +58,7 @@ public class MediatorExtensionsAdvancedTests
         var mockMediator = new MockMediator();
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
             mockMediator.EnqueueAsync("Test Job", (IRequest<string>)null!));
         Assert.AreEqual("request", exception.ParamName);
     }
@@ -72,7 +72,7 @@ public class MediatorExtensionsAdvancedTests
         var request = new TestRequestWithResponse();
 
         // Act & Assert
-        var exception = Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
+        var exception = Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
             mockMediator.EnqueueAsync("Test Job", request));
         Assert.IsTrue(exception.Result.Message.Contains("Unable to resolve IServiceProvider"));
         Assert.IsTrue(exception.Result.Message.Contains("AddHangfireMediatR"));
@@ -86,9 +86,9 @@ public class MediatorExtensionsAdvancedTests
         services.AddSingleton<ITaskCoordinator>(new MockTaskCoordinator());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         var serviceProvider = services.BuildServiceProvider();
-        
+
         ServiceLocator.Current = serviceProvider;
-        
+
         var mockMediator = new MockMediator();
         var request = new TestRequestWithResponse();
 

@@ -20,7 +20,7 @@ public class HangfireConsoleLoggerTests
     public void Constructor_WithNullInnerLogger_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new HangfireConsoleLogger<TestClass>(null!));
         Assert.AreEqual("innerLogger", exception.ParamName);
     }
@@ -170,10 +170,10 @@ public class HangfireConsoleLoggerTests
         public EventId LastEventId { get; private set; }
         public object? LastState { get; private set; }
         public Exception? LastException { get; private set; }
-        
+
         public LogLevel LastLogLevelChecked { get; private set; }
         public bool IsEnabledResult { get; set; } = true;
-        
+
         public object? LastScopeState { get; private set; }
         public IDisposable? ScopeToReturn { get; set; }
 

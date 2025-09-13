@@ -45,7 +45,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         if (request == null)
             throw new ArgumentNullException(nameof(request));
 
-        _logger.LogInformation("Executing job: {JobName} with request type: {RequestType}", 
+        _logger.LogInformation("Executing job: {JobName} with request type: {RequestType}",
             jobName, request.GetType().Name);
 
         try
@@ -55,7 +55,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Job failed: {JobName} with request type: {RequestType}", 
+            _logger.LogError(ex, "Job failed: {JobName} with request type: {RequestType}",
                 jobName, request.GetType().Name);
             throw;
         }
@@ -73,7 +73,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         if (request == null)
             throw new ArgumentNullException(nameof(request));
 
-        _logger.LogInformation("Executing job: {JobName} with request type: {RequestType}", 
+        _logger.LogInformation("Executing job: {JobName} with request type: {RequestType}",
             jobName, request.GetType().Name);
 
         try
@@ -83,7 +83,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Job failed: {JobName} with request type: {RequestType}", 
+            _logger.LogError(ex, "Job failed: {JobName} with request type: {RequestType}",
                 jobName, request.GetType().Name);
             throw;
         }
@@ -103,7 +103,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         if (string.IsNullOrEmpty(taskId))
             throw new ArgumentException("Task ID must be provided", nameof(taskId));
 
-        _logger.LogInformation("Executing async job: {JobName} with task ID: {TaskId}, retry attempts: {RetryAttempts}", 
+        _logger.LogInformation("Executing async job: {JobName} with task ID: {TaskId}, retry attempts: {RetryAttempts}",
             jobName, taskId, retryAttempts);
 
         var attempt = 0;
@@ -113,12 +113,12 @@ public class MediatorJobBridge : IMediatorJobBridge
         {
             try
             {
-                _logger.LogDebug("Attempt {Attempt}/{MaxAttempts} for job: {JobName} (Task ID: {TaskId})", 
+                _logger.LogDebug("Attempt {Attempt}/{MaxAttempts} for job: {JobName} (Task ID: {TaskId})",
                     attempt + 1, retryAttempts + 1, jobName, taskId);
 
                 var result = await _mediator.Send(request);
-                
-                _logger.LogInformation("Successfully completed async job: {JobName} (Task ID: {TaskId})", 
+
+                _logger.LogInformation("Successfully completed async job: {JobName} (Task ID: {TaskId})",
                     jobName, taskId);
 
                 await _taskCoordinator.CompleteTask(taskId, result);
@@ -128,13 +128,13 @@ public class MediatorJobBridge : IMediatorJobBridge
             {
                 lastException = ex;
                 attempt++;
-                
-                _logger.LogWarning(ex, "Attempt {Attempt}/{MaxAttempts} failed for job: {JobName} (Task ID: {TaskId})", 
+
+                _logger.LogWarning(ex, "Attempt {Attempt}/{MaxAttempts} failed for job: {JobName} (Task ID: {TaskId})",
                     attempt, retryAttempts + 1, jobName, taskId);
 
                 if (attempt > retryAttempts)
                 {
-                    _logger.LogError(ex, "All retry attempts exhausted for job: {JobName} (Task ID: {TaskId})", 
+                    _logger.LogError(ex, "All retry attempts exhausted for job: {JobName} (Task ID: {TaskId})",
                         jobName, taskId);
 
                     await _taskCoordinator.CompleteTask<TResponse>(taskId, default, lastException);
@@ -145,7 +145,7 @@ public class MediatorJobBridge : IMediatorJobBridge
                 if (attempt <= retryAttempts)
                 {
                     var delay = TimeSpan.FromSeconds(Math.Pow(2, attempt - 1));
-                    _logger.LogDebug("Waiting {Delay}ms before retry attempt {NextAttempt} for job: {JobName}", 
+                    _logger.LogDebug("Waiting {Delay}ms before retry attempt {NextAttempt} for job: {JobName}",
                         delay.TotalMilliseconds, attempt + 1, jobName);
                     await Task.Delay(delay);
                 }
@@ -165,7 +165,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         if (notification == null)
             throw new ArgumentNullException(nameof(notification));
 
-        _logger.LogInformation("Publishing notification job: {JobName} with notification type: {NotificationType}", 
+        _logger.LogInformation("Publishing notification job: {JobName} with notification type: {NotificationType}",
             jobName, notification.GetType().Name);
 
         try
@@ -175,7 +175,7 @@ public class MediatorJobBridge : IMediatorJobBridge
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Notification job failed: {JobName} with notification type: {NotificationType}", 
+            _logger.LogError(ex, "Notification job failed: {JobName} with notification type: {NotificationType}",
                 jobName, notification.GetType().Name);
             throw;
         }

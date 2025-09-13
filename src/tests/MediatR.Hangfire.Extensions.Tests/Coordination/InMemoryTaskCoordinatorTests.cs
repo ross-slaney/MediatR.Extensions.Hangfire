@@ -32,7 +32,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
         var optionsWrapper = Options.Create(_options);
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new InMemoryTaskCoordinator(null!, optionsWrapper));
         Assert.AreEqual("logger", exception.ParamName);
     }
@@ -41,7 +41,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public void Constructor_WithNullOptions_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             new InMemoryTaskCoordinator(_logger, null!));
         Assert.AreEqual("options", exception.ParamName);
     }
@@ -94,7 +94,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public async Task CompleteTask_WithNullTaskId_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             _coordinator.CompleteTask<string>(null!, "result"));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -103,7 +103,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public async Task CompleteTask_WithEmptyTaskId_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             _coordinator.CompleteTask<string>(string.Empty, "result"));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -166,7 +166,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public async Task WaitForCompletion_WithNullTaskId_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             _coordinator.WaitForCompletion<string>(null!));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -175,7 +175,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public async Task WaitForCompletion_WithEmptyTaskId_ThrowsArgumentException()
     {
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
             _coordinator.WaitForCompletion<string>(string.Empty));
         Assert.AreEqual("taskId", exception.ParamName);
     }
@@ -184,7 +184,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
     public async Task WaitForCompletion_WithNonExistentTaskId_ThrowsInvalidOperationException()
     {
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
             _coordinator.WaitForCompletion<string>("non-existent-task"));
         Assert.IsTrue(exception.Message.Contains("not found or already completed"));
     }
@@ -244,7 +244,7 @@ public class InMemoryTaskCoordinatorTests : IDisposable
         var taskId = await shortTimeoutCoordinator.CreateTask<string>();
 
         // Act & Assert
-        var exception = await Assert.ThrowsExceptionAsync<TimeoutException>(() => 
+        var exception = await Assert.ThrowsExceptionAsync<TimeoutException>(() =>
             shortTimeoutCoordinator.WaitForCompletion<string>(taskId));
         Assert.IsTrue(exception.Message.Contains("timed out"));
     }

@@ -53,7 +53,7 @@ public class InMemoryTaskCoordinator : ITaskCoordinator, IDisposable
         _pendingTasks[taskId] = tcs;
         _taskStates[taskId] = taskState;
 
-        _logger.LogDebug("Created task coordination context: {TaskId} for type: {ResponseType}", 
+        _logger.LogDebug("Created task coordination context: {TaskId} for type: {ResponseType}",
             taskId, typeof(TResponse).Name);
 
         // Setup timeout handling
@@ -107,7 +107,7 @@ public class InMemoryTaskCoordinator : ITaskCoordinator, IDisposable
             {
                 taskState.Exception = exception;
                 tcs.SetException(exception);
-                _logger.LogDebug("Completing task {TaskId} with exception: {ExceptionType}", 
+                _logger.LogDebug("Completing task {TaskId} with exception: {ExceptionType}",
                     taskId, exception.GetType().Name);
             }
 
@@ -146,12 +146,12 @@ public class InMemoryTaskCoordinator : ITaskCoordinator, IDisposable
         {
             // Wait for completion with cancellation support
             var result = await tcs.Task.WaitAsync(cancellationToken);
-            
+
             _logger.LogDebug("Task {TaskId} completed successfully", taskId);
-            
+
             // Clean up after successful completion
             _ = Task.Run(() => CleanupTaskInternal(taskId));
-            
+
             return (TResponse)result!;
         }
         catch (OperationCanceledException)
@@ -162,10 +162,10 @@ public class InMemoryTaskCoordinator : ITaskCoordinator, IDisposable
         catch (Exception ex)
         {
             _logger.LogError(ex, "Task {TaskId} failed with exception", taskId);
-            
+
             // Clean up after failure
             _ = Task.Run(() => CleanupTaskInternal(taskId));
-            
+
             throw;
         }
     }

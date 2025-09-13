@@ -13,7 +13,7 @@ public class ServiceCollectionExtensionsTests
     public void AddHangfireMediatR_WithNullServices_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddHangfireMediatR(options => options.UseInMemory()));
         Assert.AreEqual("services", exception.ParamName);
     }
@@ -25,7 +25,7 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
 
         // Act & Assert
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => 
+        var exception = Assert.ThrowsException<ArgumentNullException>(() =>
             services.AddHangfireMediatR((Action<HangfireMediatorOptionsBuilder>)null!));
         Assert.AreEqual("configure", exception.ParamName);
     }
@@ -43,7 +43,7 @@ public class ServiceCollectionExtensionsTests
         var serviceProvider = services.BuildServiceProvider();
         var optionsSnapshot = serviceProvider.GetService<IOptionsSnapshot<HangfireMediatorOptions>>();
         Assert.IsNotNull(optionsSnapshot);
-        
+
         var options = optionsSnapshot.Value;
         Assert.IsTrue(options.UseInMemoryCoordination);
     }
@@ -61,7 +61,7 @@ public class ServiceCollectionExtensionsTests
         var serviceProvider = services.BuildServiceProvider();
         var optionsSnapshot = serviceProvider.GetService<IOptionsSnapshot<HangfireMediatorOptions>>();
         Assert.IsNotNull(optionsSnapshot);
-        
+
         var options = optionsSnapshot.Value;
         Assert.IsTrue(options.UseInMemoryCoordination);
     }
@@ -73,8 +73,8 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
 
         // Act & Assert
-        Assert.ThrowsException<ArgumentException>(() => 
-            services.AddHangfireMediatR(options => 
+        Assert.ThrowsException<ArgumentException>(() =>
+            services.AddHangfireMediatR(options =>
             {
                 options.WithRetryAttempts(-1); // Invalid
             }));
@@ -120,10 +120,10 @@ public class ServiceLocatorSetupTests
 
         // Act & Assert - Should not throw
         setup.Setup(serviceProvider);
-        
+
         // Verify it was set
         Assert.AreSame(serviceProvider, ServiceLocator.Current);
-        
+
         // Cleanup
         ServiceLocator.Current = null;
     }
