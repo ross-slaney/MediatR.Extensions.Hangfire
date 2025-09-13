@@ -8,7 +8,7 @@
     
     <!-- Package Metadata -->
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>MediatR.Hangfire.Extensions</PackageId>
+    <PackageId>RossSlaney.MediatR.Hangfire.Extensions</PackageId>
     <Title>MediatR Hangfire Extensions</Title>
     <Authors>Ross Slaney</Authors>
     <Product>MediatR.Hangfire.Extensions</Product>
