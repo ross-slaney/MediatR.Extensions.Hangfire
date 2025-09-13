@@ -40,14 +40,68 @@ jobs:
         run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
         working-directory: ./src
 
-      - name: Run tests with coverage
-        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../TestResults/
+      - name: Run tests with coverage (PR branch)
+        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../TestResults/coverage-pr.cobertura.xml
         working-directory: ./src/tests/MediatR.Hangfire.Extensions.Tests
+
+      - name: Generate base branch coverage (for PR comparison)
+        if: github.event_name == 'pull_request'
+        run: |
+          # Fetch the base branch
+          git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+
+          # Stash current changes
+          git stash
+
+          # Checkout base branch
+          git checkout ${{ github.event.pull_request.base.ref }}
+
+          # Restore dependencies and build base branch
+          dotnet restore MediatR.Hangfire.Extensions.sln
+          dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
+
+          # Run tests with coverage for base branch
+          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../TestResults/coverage-base.cobertura.xml
+
+          # Switch back to PR branch
+          git checkout ${{ github.sha }}
+          git stash pop || true
+        working-directory: ./src
+        continue-on-error: true
+
+      - name: Install diff-cover and dependencies
+        if: github.event_name == 'pull_request'
+        run: |
+          pip install diff-cover
+          npm install xml2js
+
+      - name: Generate differential coverage report
+        if: github.event_name == 'pull_request'
+        id: diff-coverage
+        run: |
+          # Create diff coverage report
+          set +e  # Don't exit on error
+          diff-cover ./TestResults/coverage-pr.cobertura.xml \
+            --compare-branch=origin/${{ github.event.pull_request.base.ref }} \
+            --html-report=./TestResults/diff-coverage.html \
+            --json-report=./TestResults/diff-coverage.json \
+            --fail-under=80
+          DIFF_COVERAGE_EXIT_CODE=$?
+
+          # Always output the result for debugging
+          echo "Diff coverage exit code: $DIFF_COVERAGE_EXIT_CODE"
+
+          # Set output for later steps
+          echo "diff_coverage_passed=$([ $DIFF_COVERAGE_EXIT_CODE -eq 0 ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+
+          # Exit with the original code to potentially fail the job
+          exit $DIFF_COVERAGE_EXIT_CODE
+        continue-on-error: false
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: ./TestResults/coverage.cobertura.xml
+          file: ./TestResults/coverage-pr.cobertura.xml
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
@@ -55,7 +109,7 @@ jobs:
       - name: Generate coverage report
         uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
         with:
-          reports: "./TestResults/coverage.cobertura.xml"
+          reports: "./TestResults/coverage-pr.cobertura.xml"
           targetdir: "coveragereport"
           reporttypes: "Html;Badges"
 
@@ -65,8 +119,15 @@ jobs:
           name: coverage-report
           path: coveragereport/
 
-      - name: Comment coverage on PR
+      - name: Upload differential coverage report
         if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-coverage-report
+          path: ./TestResults/diff-coverage.html
+
+      - name: Comment differential coverage on PR
+        if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           script: |
@@ -74,7 +135,17 @@ jobs:
             const xml2js = require('xml2js');
 
             try {
-              const coverageXml = fs.readFileSync('./TestResults/coverage.cobertura.xml', 'utf8');
+              // Read differential coverage JSON if it exists
+              let diffCoverageData = null;
+              try {
+                const diffCoverageJson = fs.readFileSync('./TestResults/diff-coverage.json', 'utf8');
+                diffCoverageData = JSON.parse(diffCoverageJson);
+              } catch (diffError) {
+                console.log('No differential coverage data available:', diffError.message);
+              }
+
+              // Read PR coverage XML
+              const coverageXml = fs.readFileSync('./TestResults/coverage-pr.cobertura.xml', 'utf8');
               const parser = new xml2js.Parser();
               
               parser.parseString(coverageXml, (err, result) => {
@@ -87,16 +158,51 @@ jobs:
                 const lineRate = (parseFloat(coverage['line-rate']) * 100).toFixed(2);
                 const branchRate = (parseFloat(coverage['branch-rate']) * 100).toFixed(2);
                 
-                const comment = `## 📊 Test Coverage Report
+                let comment = `## 📊 Differential Coverage Report (New Code Only)
                 
+                ### Overall Project Coverage
                 | Metric | Coverage |
                 |--------|----------|
                 | **Lines** | ${lineRate}% |
                 | **Branches** | ${branchRate}% |
+                `;
+
+                if (diffCoverageData) {
+                  const diffLineRate = diffCoverageData.total_num_lines > 0 
+                    ? ((diffCoverageData.total_num_lines - diffCoverageData.total_num_missing_lines) / diffCoverageData.total_num_lines * 100).toFixed(2)
+                    : 'N/A';
+                  
+                  comment += `
+                ### 🎯 New/Changed Code Coverage
+                | Metric | Value |
+                |--------|-------|
+                | **New Lines Coverage** | ${diffLineRate}% |
+                | **Lines Added/Changed** | ${diffCoverageData.total_num_lines || 0} |
+                | **Lines Covered** | ${(diffCoverageData.total_num_lines || 0) - (diffCoverageData.total_num_missing_lines || 0)} |
+                | **Lines Missing Coverage** | ${diffCoverageData.total_num_missing_lines || 0} |
+                
+                ${diffLineRate >= 80 ? '✅ Excellent! New code meets coverage standards' : 
+                  diffLineRate >= 70 ? '⚠️ Good coverage on new code, but could be improved' : 
+                  '❌ New code coverage below recommended threshold (80%)'}
+                
+                **Coverage Check Status**: ${diffLineRate >= 80 ? '✅ PASSED' : '❌ FAILED - PR will be blocked'}`;
+                } else {
+                  comment += `
+                ### 🎯 New/Changed Code Coverage
+                ⚠️ Unable to generate differential coverage report. This may be due to:
+                - No testable code changes in this PR
+                - Issues comparing with base branch
+                - First-time setup of differential coverage
+                
+                **Coverage Check Status**: ⚠️ SKIPPED - No differential coverage data available`;
+                }
+
+                comment += `
                 
                 📁 [View detailed coverage report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+                📊 [Download differential coverage report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
                 
-                ${lineRate >= 85 ? '✅ Great coverage!' : lineRate >= 70 ? '⚠️ Good coverage, could be improved' : '❌ Coverage below recommended threshold (70%)'}`;
+                > **Note**: This report focuses on coverage of **new and modified code only**. The overall project coverage is shown for reference.`;
                 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
