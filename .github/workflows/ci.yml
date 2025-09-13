@@ -33,11 +33,11 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore MediatR.Hangfire.Extensions.sln
         working-directory: ./src
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
         working-directory: ./src
 
       - name: Run tests with coverage
@@ -144,15 +144,15 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore MediatR.Hangfire.Extensions.sln
         working-directory: ./src
 
       - name: Check formatting
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+        run: dotnet format MediatR.Hangfire.Extensions.sln --verify-no-changes --verbosity diagnostic
         working-directory: ./src
 
       - name: Run security scan
-        run: dotnet list package --vulnerable --include-transitive
+        run: dotnet list MediatR.Hangfire.Extensions.sln package --vulnerable --include-transitive
         working-directory: ./src
 
   package:
@@ -184,11 +184,11 @@ jobs:
           useConfigFile: true
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore MediatR.Hangfire.Extensions.sln
         working-directory: ./src
 
       - name: Build for packaging
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
         working-directory: ./src
 
       - name: Create NuGet package
