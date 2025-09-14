@@ -22,7 +22,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
     private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> _pendingTasks = new();
     private readonly string _keyPrefix = "hangfire-mediatr:task:";
     private readonly string _channelPrefix = "hangfire-mediatr:completion:";
-    
+
     // JSON settings that match Hangfire's recommended settings for consistency
     private static readonly JsonSerializerSettings JsonSettings = new()
     {
