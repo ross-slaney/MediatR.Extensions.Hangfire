@@ -1,6 +1,6 @@
 using MediatR;
 using MediatR.Hangfire.Example.Services;
-using MediatR.Hangfire.Extensions.Logging;
+using MediatR.Extensions.Hangfire.Logging;
 
 namespace MediatR.Hangfire.Example.Commands;
 

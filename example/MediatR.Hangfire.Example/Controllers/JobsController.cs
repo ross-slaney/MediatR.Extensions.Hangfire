@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using MediatR.Hangfire.Example.Commands;
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Extensions;
 using Hangfire;
 
 namespace MediatR.Hangfire.Example.Controllers;

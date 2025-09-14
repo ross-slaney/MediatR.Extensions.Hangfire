@@ -3,7 +3,7 @@ using MediatR;
 using MediatR.Hangfire.Example.Commands;
 using MediatR.Hangfire.Example.Queries;
 using MediatR.Hangfire.Example.Models;
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Extensions;
 
 namespace MediatR.Hangfire.Example.Controllers;
 

@@ -1,4 +1,4 @@
-namespace MediatR.Hangfire.Extensions.Coordination;
+namespace MediatR.Extensions.Hangfire.Coordination;
 
 /// <summary>
 /// Interface for coordinating async task completion across distributed processes.

@@ -4,12 +4,12 @@ using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using Hangfire;
 using Hangfire.Console;
-using MediatR.Hangfire.Extensions.Bridge;
-using MediatR.Hangfire.Extensions.Configuration;
-using MediatR.Hangfire.Extensions.Coordination;
-using MediatR.Hangfire.Extensions.Logging;
+using MediatR.Extensions.Hangfire.Bridge;
+using MediatR.Extensions.Hangfire.Configuration;
+using MediatR.Extensions.Hangfire.Coordination;
+using MediatR.Extensions.Hangfire.Logging;
 
-namespace MediatR.Hangfire.Extensions.Extensions;
+namespace MediatR.Extensions.Hangfire.Extensions;
 
 /// <summary>
 /// Extension methods for IServiceCollection to configure MediatR-Hangfire integration.

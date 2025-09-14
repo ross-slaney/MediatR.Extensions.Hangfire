@@ -2,7 +2,7 @@ using Hangfire.Server;
 using Hangfire.Console;
 using Hangfire.Common;
 
-namespace MediatR.Hangfire.Extensions.Logging;
+namespace MediatR.Extensions.Hangfire.Logging;
 
 /// <summary>
 /// Hangfire server filter that provides access to the current job's console context.

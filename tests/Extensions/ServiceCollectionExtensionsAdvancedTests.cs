@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using MediatR.Hangfire.Extensions.Configuration;
-using MediatR.Hangfire.Extensions.Extensions;
-using MediatR.Hangfire.Extensions.Coordination;
-using MediatR.Hangfire.Extensions.Bridge;
+using MediatR.Extensions.Hangfire.Configuration;
+using MediatR.Extensions.Hangfire.Extensions;
+using MediatR.Extensions.Hangfire.Coordination;
+using MediatR.Extensions.Hangfire.Bridge;
 
-namespace MediatR.Hangfire.Extensions.Tests.Extensions;
+namespace MediatR.Extensions.Hangfire.Tests.Extensions;
 
 [TestClass]
 public class ServiceCollectionExtensionsAdvancedTests

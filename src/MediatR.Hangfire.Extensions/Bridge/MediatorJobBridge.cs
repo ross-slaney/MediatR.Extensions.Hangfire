@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using MediatR.Hangfire.Extensions.Coordination;
+using MediatR.Extensions.Hangfire.Coordination;
 
-namespace MediatR.Hangfire.Extensions.Bridge;
+namespace MediatR.Extensions.Hangfire.Bridge;
 
 /// <summary>
 /// Implementation of IMediatorJobBridge that executes MediatR requests within Hangfire jobs.

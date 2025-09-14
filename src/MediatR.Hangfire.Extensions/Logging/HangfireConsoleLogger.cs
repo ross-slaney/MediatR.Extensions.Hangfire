@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Hangfire.Console;
 
-namespace MediatR.Hangfire.Extensions.Logging;
+namespace MediatR.Extensions.Hangfire.Logging;
 
 /// <summary>
 /// Logger wrapper that automatically writes to both the regular logger and Hangfire console when available.

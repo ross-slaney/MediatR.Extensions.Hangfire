@@ -2,10 +2,10 @@ using Hangfire;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MediatR.Hangfire.Extensions.Bridge;
-using MediatR.Hangfire.Extensions.Coordination;
+using MediatR.Extensions.Hangfire.Bridge;
+using MediatR.Extensions.Hangfire.Coordination;
 
-namespace MediatR.Hangfire.Extensions.Extensions;
+namespace MediatR.Extensions.Hangfire.Extensions;
 
 /// <summary>
 /// Extension methods for IMediator that provide seamless integration with Hangfire for background job processing.

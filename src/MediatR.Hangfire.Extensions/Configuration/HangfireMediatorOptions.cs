@@ -1,4 +1,4 @@
-namespace MediatR.Hangfire.Extensions.Configuration;
+namespace MediatR.Extensions.Hangfire.Configuration;
 
 /// <summary>
 /// Configuration options for the MediatR-Hangfire integration.

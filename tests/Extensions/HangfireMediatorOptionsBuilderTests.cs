@@ -1,6 +1,6 @@
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Extensions;
 
-namespace MediatR.Hangfire.Extensions.Tests.Extensions;
+namespace MediatR.Extensions.Hangfire.Tests.Extensions;
 
 [TestClass]
 public class HangfireMediatorOptionsBuilderTests
@@ -122,7 +122,7 @@ public class HangfireMediatorOptionsBuilderTests
     }
 
     // Helper method to access the internal Build method using reflection
-    private static MediatR.Hangfire.Extensions.Configuration.HangfireMediatorOptions GetBuiltOptions(HangfireMediatorOptionsBuilder builder)
+    private static MediatR.Extensions.Hangfire.Configuration.HangfireMediatorOptions GetBuiltOptions(HangfireMediatorOptionsBuilder builder)
     {
         var buildMethod = typeof(HangfireMediatorOptionsBuilder).GetMethod("Build",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -131,6 +131,6 @@ public class HangfireMediatorOptionsBuilderTests
             throw new InvalidOperationException("Build method not found");
 
         var options = buildMethod.Invoke(builder, null);
-        return (MediatR.Hangfire.Extensions.Configuration.HangfireMediatorOptions)options!;
+        return (MediatR.Extensions.Hangfire.Configuration.HangfireMediatorOptions)options!;
     }
 }

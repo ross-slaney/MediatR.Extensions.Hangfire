@@ -1,7 +1,7 @@
 using MediatR;
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Extensions;
 
-namespace MediatR.Hangfire.Extensions.Tests.Extensions;
+namespace MediatR.Extensions.Hangfire.Tests.Extensions;
 
 [TestClass]
 public class MediatorExtensionsTests

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using MediatR.Hangfire.Extensions.Logging;
+using MediatR.Extensions.Hangfire.Logging;
 
-namespace MediatR.Hangfire.Extensions.Tests.Logging;
+namespace MediatR.Extensions.Hangfire.Tests.Logging;
 
 [TestClass]
 public class HangfireConsoleLoggerTests

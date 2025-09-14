@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using MediatR.Hangfire.Extensions.Configuration;
+using MediatR.Extensions.Hangfire.Configuration;
 
-namespace MediatR.Hangfire.Extensions.Coordination;
+namespace MediatR.Extensions.Hangfire.Coordination;
 
 /// <summary>
 /// Redis-based implementation of ITaskCoordinator for distributed task coordination.

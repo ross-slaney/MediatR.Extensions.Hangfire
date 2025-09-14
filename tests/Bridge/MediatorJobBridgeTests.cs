@@ -2,10 +2,10 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using MediatR.Hangfire.Extensions.Bridge;
-using MediatR.Hangfire.Extensions.Coordination;
+using MediatR.Extensions.Hangfire.Bridge;
+using MediatR.Extensions.Hangfire.Coordination;
 
-namespace MediatR.Hangfire.Extensions.Tests.Bridge;
+namespace MediatR.Extensions.Hangfire.Tests.Bridge;
 
 [TestClass]
 public class MediatorJobBridgeTests

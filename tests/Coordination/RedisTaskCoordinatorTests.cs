@@ -3,10 +3,10 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
 using StackExchange.Redis;
-using MediatR.Hangfire.Extensions.Configuration;
-using MediatR.Hangfire.Extensions.Coordination;
+using MediatR.Extensions.Hangfire.Configuration;
+using MediatR.Extensions.Hangfire.Coordination;
 
-namespace MediatR.Hangfire.Extensions.Tests.Coordination;
+namespace MediatR.Extensions.Hangfire.Tests.Coordination;
 
 [TestClass]
 public class RedisTaskCoordinatorTests

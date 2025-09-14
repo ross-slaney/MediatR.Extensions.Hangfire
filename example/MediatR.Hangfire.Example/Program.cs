@@ -2,7 +2,7 @@ using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 using MediatR;
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Extensions;
 using MediatR.Hangfire.Example.Commands;
 using MediatR.Hangfire.Example.Queries;
 using MediatR.Hangfire.Example.Services;
@@ -128,14 +128,14 @@ builder.Services.AddHangfireMediatR(options =>
 
 var app = builder.Build();
 
-// Set up service locator and Hangfire configuration for MediatR.Hangfire.Extensions
+// Set up service locator and Hangfire configuration for MediatR.Extensions.Hangfire
 using (var scope = app.Services.CreateScope())
 {
-    var serviceLocatorSetup = scope.ServiceProvider.GetRequiredService<MediatR.Hangfire.Extensions.Extensions.IServiceLocatorSetup>();
+    var serviceLocatorSetup = scope.ServiceProvider.GetRequiredService<MediatR.Extensions.Hangfire.Extensions.IServiceLocatorSetup>();
     serviceLocatorSetup.Setup(app.Services);
 
     // Configure Hangfire for MediatR integration
-    var hangfireConfigurator = scope.ServiceProvider.GetRequiredService<MediatR.Hangfire.Extensions.Extensions.IHangfireMediatorConfigurator>();
+    var hangfireConfigurator = scope.ServiceProvider.GetRequiredService<MediatR.Extensions.Hangfire.Extensions.IHangfireMediatorConfigurator>();
     hangfireConfigurator.Configure();
 }
 

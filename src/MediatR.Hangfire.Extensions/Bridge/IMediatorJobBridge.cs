@@ -1,7 +1,7 @@
 using MediatR;
 using System.ComponentModel;
 
-namespace MediatR.Hangfire.Extensions.Bridge;
+namespace MediatR.Extensions.Hangfire.Bridge;
 
 /// <summary>
 /// Bridge interface for executing MediatR requests within Hangfire job context.

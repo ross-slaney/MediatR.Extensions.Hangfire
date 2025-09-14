@@ -1,6 +1,6 @@
-using MediatR.Hangfire.Extensions.Configuration;
+using MediatR.Extensions.Hangfire.Configuration;
 
-namespace MediatR.Hangfire.Extensions.Tests.Configuration;
+namespace MediatR.Extensions.Hangfire.Tests.Configuration;
 
 [TestClass]
 public class HangfireMediatorOptionsTests

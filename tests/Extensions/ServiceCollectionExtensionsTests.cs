@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using MediatR.Hangfire.Extensions.Configuration;
-using MediatR.Hangfire.Extensions.Extensions;
+using MediatR.Extensions.Hangfire.Configuration;
+using MediatR.Extensions.Hangfire.Extensions;
 
-namespace MediatR.Hangfire.Extensions.Tests.Extensions;
+namespace MediatR.Extensions.Hangfire.Tests.Extensions;
 
 [TestClass]
 public class ServiceCollectionExtensionsTests
