@@ -9,7 +9,7 @@ var sql = builder.AddSqlServer("sql")
 var db = sql.AddDatabase("hangfire");
 
 // API Container - Only handles HTTP requests and enqueues jobs
-var api = builder.AddProject("api", "../MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj")
+var api = builder.AddProject("api", "../MediatR.Extensions.Hangfire.Example/MediatR.Extensions.Hangfire.Example.csproj")
     .WaitFor(db)
     .WaitFor(redis)
     .WithReference(redis)
@@ -21,7 +21,7 @@ var api = builder.AddProject("api", "../MediatR.Hangfire.Example/MediatR.Hangfir
     .WithHttpEndpoint(port: 5001, name: "http");
 
 // Worker Container 1 - Only processes background jobs
-var worker1 = builder.AddProject("worker1", "../MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj")
+var worker1 = builder.AddProject("worker1", "../MediatR.Extensions.Hangfire.Example/MediatR.Extensions.Hangfire.Example.csproj")
     .WaitFor(db)
     .WaitFor(redis)
     .WithReference(redis)
@@ -34,7 +34,7 @@ var worker1 = builder.AddProject("worker1", "../MediatR.Hangfire.Example/MediatR
     .WithHttpEndpoint(port: 5002, name: "worker1");
 
 // Worker Container 2 - Additional processing capacity
-var worker2 = builder.AddProject("worker2", "../MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj")
+var worker2 = builder.AddProject("worker2", "../MediatR.Extensions.Hangfire.Example/MediatR.Extensions.Hangfire.Example.csproj")
     .WaitFor(db)
     .WaitFor(redis)
     .WithReference(redis)
@@ -47,7 +47,7 @@ var worker2 = builder.AddProject("worker2", "../MediatR.Hangfire.Example/MediatR
     .WithHttpEndpoint(port: 5003, name: "worker2");
 
 // Worker Container 3 - Specialized for heavy processing
-var worker3 = builder.AddProject("worker3", "../MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj")
+var worker3 = builder.AddProject("worker3", "../MediatR.Extensions.Hangfire.Example/MediatR.Extensions.Hangfire.Example.csproj")
     .WaitFor(db)
     .WithReference(redis)
     .WithReference(db)

@@ -1,6 +1,6 @@
-# MediatR.Hangfire.Extensions Tests
+# MediatR.Extensions.Hangfire Tests
 
-This directory contains unit tests for the MediatR.Hangfire.Extensions library using MSTest and Coverlet for code coverage.
+This directory contains unit tests for the MediatR.Extensions.Hangfire library using MSTest and Coverlet for code coverage.
 
 ## Running Tests
 
@@ -42,7 +42,7 @@ Example output:
 +-----------------------------+-------+--------+--------+
 | Module                      | Line  | Branch | Method |
 +-----------------------------+-------+--------+--------+
-| MediatR.Hangfire.Extensions | 7.28% | 7.06%  | 20.4%  |
+| MediatR.Extensions.Hangfire | 7.28% | 7.06%  | 20.4%  |
 +-----------------------------+-------+--------+--------+
 ```
 

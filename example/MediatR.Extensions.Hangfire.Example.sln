@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Hangfire.Example", "MediatR.Hangfire.Example\MediatR.Hangfire.Example.csproj", "{63554A69-CF23-42E7-A567-4E0F4942056C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.Hangfire.Example", "MediatR.Extensions.Hangfire.Example\MediatR.Extensions.Hangfire.Example.csproj", "{63554A69-CF23-42E7-A567-4E0F4942056C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Hangfire.AppHost", "MediatR.Hangfire.AppHost\MediatR.Hangfire.AppHost.csproj", "{A16F56CB-341C-4E38-97B9-5744E5BD9FC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.Hangfire.AppHost", "MediatR.Extensions.Hangfire.AppHost\MediatR.Extensions.Hangfire.AppHost.csproj", "{A16F56CB-341C-4E38-97B9-5744E5BD9FC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
-# MediatR.Hangfire.Extensions Example
+# MediatR.Extensions.Hangfire Example
 
-This example demonstrates the usage of the MediatR.Hangfire.Extensions library in a .NET 9 Web API application.
+This example demonstrates the usage of the MediatR.Extensions.Hangfire library in a .NET 9 Web API application.
 
 ## 🚀 Getting Started
 
@@ -14,7 +14,7 @@ This example demonstrates the usage of the MediatR.Hangfire.Extensions library i
 1. **Navigate to the example directory:**
 
    ```bash
-   cd example/MediatR.Hangfire.Example
+   cd example/MediatR.Extensions.Hangfire.Example
    ```
 
 2. **Restore dependencies:**

@@ -1,6 +1,6 @@
-# MediatR.Hangfire.Extensions - Distributed Example
+# MediatR.Extensions.Hangfire - Distributed Example
 
-This example demonstrates the **real-world distributed processing capabilities** of the MediatR.Hangfire.Extensions library using .NET Aspire for orchestration.
+This example demonstrates the **real-world distributed processing capabilities** of the MediatR.Extensions.Hangfire library using .NET Aspire for orchestration.
 
 ## 🏗️ Architecture
 
@@ -46,7 +46,7 @@ The example showcases a **distributed microservices architecture** with:
 1. **Navigate to the AppHost directory:**
 
    ```bash
-   cd example/MediatR.Hangfire.AppHost
+   cd example/MediatR.Extensions.Hangfire.AppHost
    ```
 
 2. **Start the distributed application:**

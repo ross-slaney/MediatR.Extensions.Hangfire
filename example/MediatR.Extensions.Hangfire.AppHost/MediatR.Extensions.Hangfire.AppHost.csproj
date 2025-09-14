@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../MediatR.Hangfire.Example/MediatR.Hangfire.Example.csproj" />
+    <ProjectReference Include="../MediatR.Extensions.Hangfire.Example/MediatR.Extensions.Hangfire.Example.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore MediatR.Hangfire.Extensions.sln
+        run: dotnet restore MediatR.Extensions.Hangfire.sln
         working-directory: ./src
 
       - name: Restore test dependencies
@@ -41,7 +41,7 @@ jobs:
         working-directory: ./tests
 
       - name: Build
-        run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
+        run: dotnet build MediatR.Extensions.Hangfire.sln --no-restore --configuration Release
         working-directory: ./src
 
       - name: Build tests
@@ -65,8 +65,8 @@ jobs:
           git checkout ${{ github.event.pull_request.base.ref }}
 
           # Restore dependencies and build base branch
-          dotnet restore src/MediatR.Hangfire.Extensions.sln
-          dotnet build src/MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
+          dotnet restore src/MediatR.Extensions.Hangfire.sln
+          dotnet build src/MediatR.Extensions.Hangfire.sln --no-restore --configuration Release
 
           # Restore and build tests for base branch
           cd tests
@@ -244,11 +244,11 @@ jobs:
             9.0.x
 
       - name: Restore example dependencies
-        run: dotnet restore MediatR.Hangfire.Example.sln
+        run: dotnet restore MediatR.Extensions.Hangfire.Example.sln
         working-directory: ./example
 
       - name: Build example
-        run: dotnet build MediatR.Hangfire.Example.sln --no-restore --configuration Release
+        run: dotnet build MediatR.Extensions.Hangfire.Example.sln --no-restore --configuration Release
         working-directory: ./example
 
   quality-checks:
@@ -265,15 +265,15 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore MediatR.Hangfire.Extensions.sln
+        run: dotnet restore MediatR.Extensions.Hangfire.sln
         working-directory: ./src
 
       - name: Check formatting
-        run: dotnet format MediatR.Hangfire.Extensions.sln --verify-no-changes --verbosity diagnostic
+        run: dotnet format MediatR.Extensions.Hangfire.sln --verify-no-changes --verbosity diagnostic
         working-directory: ./src
 
       - name: Run security scan
-        run: dotnet list MediatR.Hangfire.Extensions.sln package --vulnerable --include-transitive
+        run: dotnet list MediatR.Extensions.Hangfire.sln package --vulnerable --include-transitive
         working-directory: ./src
 
   package:
@@ -305,23 +305,23 @@ jobs:
           useConfigFile: true
 
       - name: Restore dependencies
-        run: dotnet restore MediatR.Hangfire.Extensions.sln
+        run: dotnet restore MediatR.Extensions.Hangfire.sln
         working-directory: ./src
 
       - name: Build for packaging
-        run: dotnet build MediatR.Hangfire.Extensions.sln --no-restore --configuration Release
+        run: dotnet build MediatR.Extensions.Hangfire.sln --no-restore --configuration Release
         working-directory: ./src
 
       - name: Create NuGet package
         run: dotnet pack --no-build --configuration Release --output ./packages -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
-        working-directory: ./src/MediatR.Hangfire.Extensions
+        working-directory: ./src/MediatR.Extensions.Hangfire
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
           name: nuget-package-${{ steps.gitversion.outputs.nuGetVersionV2 }}
-          path: ./src/MediatR.Hangfire.Extensions/packages/*.nupkg
+          path: ./src/MediatR.Extensions.Hangfire/packages/*.nupkg
 
       - name: Publish to NuGet
         run: dotnet nuget push ./packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-        working-directory: ./src/MediatR.Hangfire.Extensions
+        working-directory: ./src/MediatR.Extensions.Hangfire
