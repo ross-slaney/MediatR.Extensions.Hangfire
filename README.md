@@ -39,7 +39,27 @@ services.AddHangfireMediatR(options =>
 });
 ```
 
-### 4. Use in Your Controllers
+### 4. Initialize Service Locator (After Building App)
+
+```csharp
+var app = builder.Build();
+
+// IMPORTANT: Initialize the service locator for MediatR-Hangfire integration
+using (var scope = app.Services.CreateScope())
+{
+    var serviceLocatorSetup = scope.ServiceProvider.GetRequiredService<MediatR.Extensions.Hangfire.Extensions.IServiceLocatorSetup>();
+    serviceLocatorSetup.Setup(app.Services);
+
+    // Configure Hangfire for MediatR integration
+    var hangfireConfigurator = scope.ServiceProvider.GetRequiredService<MediatR.Extensions.Hangfire.Extensions.IHangfireMediatorConfigurator>();
+    hangfireConfigurator.Configure();
+}
+
+// Continue with your app configuration...
+app.Run();
+```
+
+### 5. Use in Your Controllers
 
 public class UserController : ControllerBase
 {

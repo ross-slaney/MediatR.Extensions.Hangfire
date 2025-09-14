@@ -22,6 +22,19 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
     private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> _pendingTasks = new();
     private readonly string _keyPrefix = "hangfire-mediatr:task:";
     private readonly string _channelPrefix = "hangfire-mediatr:completion:";
+    
+    // JSON settings that match Hangfire's recommended settings for consistency
+    private static readonly JsonSerializerSettings JsonSettings = new()
+    {
+        // Match System.Text.Json defaults as closely as possible
+        NullValueHandling = NullValueHandling.Include, // System.Text.Json includes nulls by default
+        DefaultValueHandling = DefaultValueHandling.Include, // Include default values
+        TypeNameHandling = TypeNameHandling.Auto, // Required for MediatR commands
+        DateFormatHandling = DateFormatHandling.IsoDateFormat, // ISO format like System.Text.Json
+        DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Consistent timezone handling
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore, // Match ReferenceHandler.IgnoreCycles
+        ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver() // PascalCase like System.Text.Json default
+    };
 
     /// <summary>
     /// Initializes a new instance of the RedisTaskCoordinator.
@@ -57,7 +70,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
         };
 
         var key = _keyPrefix + taskId;
-        var serializedState = JsonConvert.SerializeObject(taskState);
+        var serializedState = JsonConvert.SerializeObject(taskState, JsonSettings);
 
         await _database.StringSetAsync(key, serializedState, _options.DefaultTaskTimeout);
 
@@ -102,18 +115,18 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
 
             if (exception == null)
             {
-                taskState.Result = JsonConvert.SerializeObject(result);
+                taskState.Result = JsonConvert.SerializeObject(result, JsonSettings);
                 _logger.LogDebug("Completing task {TaskId} with success", taskId);
             }
             else
             {
-                taskState.Exception = JsonConvert.SerializeObject(new SerializableException(exception));
+                taskState.Exception = JsonConvert.SerializeObject(new SerializableException(exception), JsonSettings);
                 _logger.LogDebug("Completing task {TaskId} with exception: {ExceptionType}",
                     taskId, exception.GetType().Name);
             }
 
             // Save updated state
-            var serializedState = JsonConvert.SerializeObject(taskState);
+            var serializedState = JsonConvert.SerializeObject(taskState, JsonSettings);
             await _database.StringSetAsync(key, serializedState, _options.DefaultTaskTimeout);
 
             // Notify completion via pub/sub
@@ -159,7 +172,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
             var existingState = await _database.StringGetAsync(key);
             if (existingState.HasValue)
             {
-                var taskState = JsonConvert.DeserializeObject<TaskState>(existingState!);
+                var taskState = JsonConvert.DeserializeObject<TaskState>(existingState!, JsonSettings);
                 if (taskState?.Status != TaskStatus.Pending)
                 {
                     tcs.SetResult(existingState!);
@@ -183,7 +196,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
             }
 
             // Process the result
-            var finalState = JsonConvert.DeserializeObject<TaskState>(completionMessage);
+            var finalState = JsonConvert.DeserializeObject<TaskState>(completionMessage, JsonSettings);
             if (finalState == null)
             {
                 throw new InvalidOperationException($"Failed to deserialize completion state for task {taskId}");
@@ -191,7 +204,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
 
             if (finalState.Status == TaskStatus.Failed)
             {
-                var serializedException = JsonConvert.DeserializeObject<SerializableException>(finalState.Exception!);
+                var serializedException = JsonConvert.DeserializeObject<SerializableException>(finalState.Exception!, JsonSettings);
                 var exception = new Exception(serializedException!.Message);
                 _logger.LogDebug("Task {TaskId} failed with exception: {ExceptionMessage}", taskId, exception.Message);
                 throw exception;
@@ -199,7 +212,7 @@ public class RedisTaskCoordinator : ITaskCoordinator, IDisposable
 
             if (finalState.Status == TaskStatus.Completed)
             {
-                var result = JsonConvert.DeserializeObject<TResponse>(finalState.Result!);
+                var result = JsonConvert.DeserializeObject<TResponse>(finalState.Result!, JsonSettings);
                 _logger.LogDebug("Task {TaskId} completed successfully", taskId);
                 return result!;
             }
